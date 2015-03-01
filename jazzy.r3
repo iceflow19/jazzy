@@ -5,5 +5,5 @@ REBOL [
 
 do %Interpreter/core.r3
 
-file: read/string %Test/foo2.jaz
+file: read/string %Test/JazzyTest.jaz
 print parse file master-rule

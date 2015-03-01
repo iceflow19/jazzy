@@ -1,0 +1,108 @@
+show 
+show  This code illustrates basic arithmetic
+show  and logical operations.
+show 
+rvalue var
+show Variables are initialized to "zero"
+show Value of var is:
+print var
+pop
+show --------------------------------
+push 5
+push 4
+show 5 - 4 = 1
+-
+print
+pop 
+show --------------------------------
+push 4
+push 5
+show 4 - 5 = -1
+-
+print
+pop
+show --------------------------------
+push 5
+push 4
+show 5 div 4 = 1
+div 
+print
+pop
+show --------------------------------
+push 4
+push 5
+show 4 div 5 = 4
+div
+print
+pop
+show --------------------------------
+push 4
+push 3
+show 4 / 3 = 1
+/
+print 
+pop
+show --------------------------------
+push 3
+push 4
+show 3 / 4 = 0
+/
+print
+pop
+show --------------------------------
+push 0
+push 1
+show 0 & 1 = 0
+&
+print
+pop
+show --------------------------------
+push 0
+push 1
+show 0 | 1 = 1
+|
+print 
+pop
+show --------------------------------
+push 0
+show !0 = 1
+!
+print
+pop
+show --------------------------------
+push 4
+push 3
+show 4 <> 3 = 1 
+<>
+print
+pop
+show --------------------------------
+push 3 
+push 4
+show 3 <= 4 = 1
+<=
+print 
+pop
+show --------------------------------
+push 3
+push 4
+show 3 >= 4 = 0
+>=
+print
+pop
+show --------------------------------
+push 3
+push 4
+show 3 < 4 = 1
+<
+print
+pop
+show --------------------------------
+push 3
+push 4
+show 3 > 4 = 0 
+>
+print
+pop
+show -------------------------------
+halt

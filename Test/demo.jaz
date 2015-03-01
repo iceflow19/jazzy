@@ -1,0 +1,68 @@
+show 
+show This code illustrates parameter passing strategy.
+show 
+lvalue f
+push 5
+:=
+lvalue x
+push 0
+:=
+goto beforeFunc 
+label 2000
+show ---------------------------------
+show after function work:
+show value of x is:
+rvalue x
+print
+pop
+show value of f is:
+rvalue f
+print
+pop
+show 
+halt
+
+label work
+  show and function work may be seen as
+  show work( INOUT int ff, INOUT int xx )
+  lvalue xx
+  rvalue xx
+  push 1
+  +
+  :=
+  lvalue ff
+  rvalue ff
+  rvalue xx
+  +
+  :=
+return
+
+label beforeFunc 
+show before function work:
+show value of x is:
+rvalue x
+print
+pop
+show value of f is:
+rvalue f
+print
+pop
+show --------------------------------
+begin
+ lvalue ff
+ rvalue f
+ :=
+ lvalue xx
+ rvalue x
+ :=
+ show the call to function work may be seen as
+ show work( f, x );
+ call work
+ lvalue f
+ rvalue ff
+ :=
+ lvalue x
+ rvalue xx
+ :=
+end
+goto 2000

@@ -1,0 +1,54 @@
+show 
+show factProc.jaz ( Computes 5 factorial
+show                using a loop )
+show  
+lvalue n
+push 5
+:=
+lvalue f
+push 1
+:=
+begin
+ lvalue t
+ rvalue f
+ :=
+ lvalue i
+ rvalue n
+ :=
+ show function call to fact may be seen as
+ show fact( f, n );
+ call fact
+ lvalue f
+ rvalue t
+ :=
+end
+show 
+show 5 factorial is:
+rvalue f
+print
+pop
+show 
+halt
+
+label fact
+  show function fact prototype may be seen as
+  show fact( INOUT t; IN i )
+  label loop
+  rvalue i
+  push 1
+  >
+  gofalse out
+  lvalue t
+  rvalue t
+  rvalue i
+  *
+  :=
+  lvalue i
+  rvalue i
+  push 1
+  -
+  :=
+  goto loop
+  label out
+return
+

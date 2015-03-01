@@ -33,7 +33,7 @@ label foo
   show -------------------------------------
   show in foo r is local.
   show therefore  r is:  
-  rvalue r
+  rvalue r  
   print
   pop
   show -------------------------------------
