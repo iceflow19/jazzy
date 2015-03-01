@@ -45,6 +45,3 @@ master-rule: [ any [ 1 [
 		rules/jend   (machine/end-op)
 	]
 ]]]
-
-file: read/string %foo2.jaz
-print parse file master-rule

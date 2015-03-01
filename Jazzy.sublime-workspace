@@ -239,22 +239,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "core.r3",
-			"settings":
-			{
-				"buffer_size": 1500,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "machine.r3",
-			"settings":
-			{
-				"buffer_size": 2243,
-				"line_ending": "Windows"
-			}
-		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -399,12 +383,16 @@
 	],
 	"file_history":
 	[
+		"/C/Users/Thomas/Documents/Programming/jazzy/jazzy.r3",
+		"/C/Users/Thomas/Documents/Programming/jazzy/Interpreter/core.r3",
+		"/C/Users/Thomas/Documents/Programming/jazzy/.gitignore",
+		"/C/Users/Thomas/Documents/Programming/jazzy/core.r3",
+		"/C/Users/Thomas/Documents/Programming/jazzy/machine.r3",
 		"/C/Users/Thomas/Documents/Programming/jazzy/rules.r3",
 		"/C/Users/Thomas/Documents/Programming/jazzy/foo2.jaz",
 		"/C/Users/Thomas/Documents/Programming/jazzy/foo.jaz",
 		"/C/Users/Thomas/Documents/Programming/jazzy/memory.r3",
 		"/C/Users/Thomas/Documents/Programming/jazzy/TDN.txt",
-		"/C/Users/Thomas/Documents/Programming/jazzy/jazzy.r3",
 		"/C/Users/Thomas/AppData/Local/Microsoft/Windows/Temporary Internet Files/Content.Outlook/Y97OJN0I/guessTheAnswer.jaz",
 		"/C/Users/Thomas/AppData/Local/Temp/Temp1_Jaz-sample-code.zip/demo.jaz",
 		"/C/Users/Thomas/Documents/Jaz-sample-code/demo.out",
@@ -534,71 +522,13 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "core.r3",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1500,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1467,
-								1467
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/REBOL/Rebol.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				}
 			]
 		},
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 1,
-					"file": "machine.r3",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2243,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								298,
-								298
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/REBOL/Rebol.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
 			]
 		}
 	],
@@ -706,7 +636,7 @@
 		],
 		"width": 0.0
 	},
-	"selected_group": 1,
+	"selected_group": 0,
 	"settings":
 	{
 	},
