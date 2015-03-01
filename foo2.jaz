@@ -1,0 +1,20 @@
+show 
+show This is a test
+lvalue a
+push 2
+:=
+lvalue b
+push 3
+:=
+lvalue c
+push 4
+:=
+rvalue a
+rvalue b
+rvalue c
+print
+pop
+print
+pop
+print
+pop

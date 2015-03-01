@@ -1,0 +1,45 @@
+show 
+show "Consider the CALLER the routine which
+show  is calling the CALLEE"
+lvalue r
+push 2
+:=
+show 
+show before foo r is:
+rvalue r
+print
+pop
+show -------------------------------------
+begin
+   lvalue p
+   rvalue r
+   :=
+   show p is a formal parameter and
+   show r is an actual parameter
+   show therefore the call may be seen as
+   show foo( r );
+   call foo 
+end
+show value of p in caller function is:
+rvalue p
+print 
+pop
+show 
+halt
+
+label foo
+  show and function foo may be seen as
+  show foo( int p )
+  show -------------------------------------
+  show in foo r is local.
+  show therefore  r is:  
+  rvalue r
+  print
+  pop
+  show -------------------------------------
+  show in callee foo, the value of p is:
+  rvalue p
+  print
+  pop
+  show -------------------------------------
+return
