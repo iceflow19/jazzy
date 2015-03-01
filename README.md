@@ -1,2 +1,2 @@
 # jazzy
-A Rebol3 interpreter for the Jaz language
+An interpreter for the Jaz language written in Rebol 3
