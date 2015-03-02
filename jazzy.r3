@@ -6,5 +6,9 @@ REBOL [
 do %Interpreter/core.r3
 
 file: read/string %Test/JazzyTest.jaz
-print parse file firstpass-rule
-print parse file master-rule
+valid: parse file firstpass-rule
+print either valid [
+	parse file master-rule
+][
+	"input is not valid Jaz code!"
+]
