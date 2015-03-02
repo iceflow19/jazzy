@@ -14,7 +14,7 @@ master-rule: [ any [ 1 [
 	rules/jlvalue   (machine/lvalue-op param) |
 	rules/jset		(machine/set-op) |
 	rules/jcopy     (machine/copy-op) |
-	rules/jlabel    (machine/label-op param) |
+	rules/jlabel     |
 	rules/jgoto     (machine/goto-op param) |
 	rules/jgofalse  (machine/gofalse param) |
 	rules/jgotrue   (machine/gotrue-op param) |
@@ -44,4 +44,26 @@ master-rule: [ any [ 1 [
 		master-rule  (print "(recurse)")
 		rules/jend   (machine/end-op)
 	]
+]]]
+
+firstpass-rule: [ any [ 1 [
+	rules/jlabel (machine/label-op param) |
+	rules/jrvalue	| rules/jlvalue		|
+	rules/jset		| rules/jcopy      	|
+	rules/jgoto     | rules/jgofalse   	|
+	rules/jgotrue   | rules/jhalt      	|
+	rules/jcall     | rules/jadd       	|
+	rules/jsub      | rules/jmul       	|
+	rules/jdiv      | rules/jmod       	|
+	rules/jand      | rules/jnot       	|
+	rules/jor       | rules/jnot-equ   	|
+	rules/jless-equ | rules/jmore-equ  	|
+	rules/jless     | rules/jmore      	|
+	rules/jequ      | rules/jprint     	|
+	rules/jshow     | rules/jignore 	|
+	rules/jnend 	| 
+	[
+		rules/jbegin firstpass-rule rules/jend 
+	]
+
 ]]]
