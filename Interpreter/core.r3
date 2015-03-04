@@ -7,7 +7,41 @@ REBOL [
 do %rules.r3
 do %machine.r3
 
-master-rule: [ any [ 1 [
+firstpass-rule: [ 
+	program-start:
+	any [ 1 	
+		[sub-firstpass-rule]
+		instruction-end:
+		(
+			repend instruction [offset? program-start instruction-end]
+			do instruction
+		)
+		:next-instruction
+	]
+]
+
+sub-firstpass-rule: [
+	rules/jlabel (machine/label-op param) |
+	rules/jrvalue	| rules/jlvalue		|
+	rules/jset		| rules/jcopy      	|
+	rules/jgoto     | rules/jgofalse   	|
+	rules/jgotrue   | rules/jhalt      	|
+	rules/jcall     | rules/jadd       	|
+	rules/jsub      | rules/jmul       	|
+	rules/jdiv      | rules/jmod       	|
+	rules/jand      | rules/jnot       	|
+	rules/jor       | rules/jnot-equ   	|
+	rules/jless-equ | rules/jmore-equ  	|
+	rules/jless     | rules/jmore      	|
+	rules/jequ      | rules/jprint     	|
+	rules/jshow     | rules/jignore 	|
+	rules/jnend 	| 
+	[
+		rules/jbegin sub-firstpass-rule rules/jend 
+	]
+]
+
+sub-master-rule: [
 	rules/jpush     (machine/push-op param) |
 	rules/jpop      (machine/pop-op) |
 	rules/jrvalue   (machine/rvalue-op param) |
@@ -41,29 +75,28 @@ master-rule: [ any [ 1 [
 	rules/jnend |
 	[
 		rules/jbegin (machine/begin-op)
-		master-rule  (print "(recurse)")
+		sub-master-rule  (print "(recurse)")
 		rules/jend   (machine/end-op)
 	]
-]]]
+]
 
-firstpass-rule: [ any [ 1 [
-	rules/jlabel (machine/label-op param) |
-	rules/jrvalue	| rules/jlvalue		|
-	rules/jset		| rules/jcopy      	|
-	rules/jgoto     | rules/jgofalse   	|
-	rules/jgotrue   | rules/jhalt      	|
-	rules/jcall     | rules/jadd       	|
-	rules/jsub      | rules/jmul       	|
-	rules/jdiv      | rules/jmod       	|
-	rules/jand      | rules/jnot       	|
-	rules/jor       | rules/jnot-equ   	|
-	rules/jless-equ | rules/jmore-equ  	|
-	rules/jless     | rules/jmore      	|
-	rules/jequ      | rules/jprint     	|
-	rules/jshow     | rules/jignore 	|
-	rules/jnend 	| 
-	[
-		rules/jbegin firstpass-rule rules/jend 
+master-rule: [ 
+	program-start:
+	any [ 1 
+		[sub-master-rule]	
+		instruction-end:	
+		(
+			next-instruction: instruction-end			
+			either 'end-program == first instruction [
+				next-instruction: tail program-start
+			] [
+				result: do instruction
+
+				if not none? result [
+					next-instruction: skip program-start result
+				]
+			]
+		)
+		:next-instruction
 	]
-
-]]]
+]
