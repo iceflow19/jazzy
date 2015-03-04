@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"n",
+				"none"
+			],
+			[
 				"sub",
 				"sub-firstpass-rule"
 			],
@@ -247,6 +251,17 @@
 	},
 	"buffers":
 	[
+		{
+			"contents": "Remote:   origin @ https://github.com/iceflow19/jazzy.git\nLocal:    master ~\\Documents\\Programming\\jazzy\nHead:     5095b98 Fixing interpreter and major fixes\n\n\nNothing to commit (working directory clean)\n\n# Movement:\n#    r = refresh status\n#    1-5 = jump to section\n#    n = next item, N = next section\n#    p = previous item, P = previous section\n#\n# Staging:\n#    s = stage file/section, S = stage all unstaged files\n#    ctrl+shift+s = stage all unstaged and untracked files\n#    u = unstage file/section, U = unstage all files\n#    backspace = discard file/section, shift+backspace = discard everything\n#\n# Commit:\n#    c = commit, C = commit -a (add unstaged)\n#    ctrl+shift+c = commit --amend (amend previous commit)\n#\n# Other:\n#    i = ignore file, I = ignore pattern\n#    enter = open file\n#    d = view diff\n#\n# Stashes:\n#    a = apply stash, A = pop stash\n#    z = create stash, Z = create stash including untracked files\n#    backspace = discard stash",
+			"settings":
+			{
+				"buffer_size": 965,
+				"line_ending": "Windows",
+				"name": "*git-status*: jazzy",
+				"read_only": true,
+				"scratch": true
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -259,16 +274,16 @@
 				"Git: Commit"
 			],
 			[
+				"git",
+				"Git: Status"
+			],
+			[
 				"git s",
 				"Git: Status"
 			],
 			[
 				"git c",
 				"Git: Commit"
-			],
-			[
-				"git",
-				"Git: Status"
 			],
 			[
 				"git st",
@@ -395,16 +410,17 @@
 	],
 	"file_history":
 	[
+		"/C/Users/Thomas/Documents/Programming/jazzy/Interpreter/core.r3",
+		"/C/Users/Thomas/Documents/Programming/jazzy/Test/test.jaz",
 		"/C/Users/Thomas/Documents/Programming/jazzy/jazzy.r3",
 		"/C/Users/Thomas/Documents/Programming/jazzy/Interpreter/machine.r3",
-		"/C/Users/Thomas/Documents/Programming/jazzy/Test/test.jaz",
-		"/C/Users/Thomas/Documents/Programming/jazzy/Test/JazzyTest.jaz",
-		"/C/Users/Thomas/Documents/Programming/jazzy/Interpreter/core.r3",
-		"/C/Users/Thomas/Documents/Programming/jazzy/Interpreter/rules.r3",
-		"/C/Users/Thomas/Documents/Programming/jazzy/Test/recFact.jaz",
+		"/C/Users/Thomas/Documents/Programming/jazzy/Test/factProc.jaz",
 		"/C/Users/Thomas/Documents/Programming/jazzy/Test/demo.jaz",
-		"/C/Users/Thomas/Documents/Programming/jazzy/.gitattributes",
 		"/C/Users/Thomas/Documents/Programming/jazzy/Test/foo.jaz",
+		"/C/Users/Thomas/Documents/Programming/jazzy/Test/recFact.jaz",
+		"/C/Users/Thomas/Documents/Programming/jazzy/Test/JazzyTest.jaz",
+		"/C/Users/Thomas/Documents/Programming/jazzy/Interpreter/rules.r3",
+		"/C/Users/Thomas/Documents/Programming/jazzy/.gitattributes",
 		"/C/Users/Thomas/Desktop/foo.out",
 		"/C/Users/Thomas/Documents/Programming/jazzy/.gitignore",
 		"/C/Users/Thomas/Documents/Programming/jazzy/core.r3",
@@ -511,6 +527,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"result",
+			"res",
+			"result",
 			"[]\n",
 			"halt",
 			"!:",
@@ -544,8 +563,43 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 965,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								160,
+								160
+							]
+						],
+						"settings":
+						{
+							"__vi_external_disable": true,
+							"draw_white_space": "none",
+							"git_repo": "C:\\Users\\Thomas\\Documents\\Programming\\jazzy",
+							"git_status": true,
+							"git_view": "status",
+							"syntax": "Packages/SublimeGit/syntax/SublimeGit Status.tmLanguage",
+							"translate_tabs_to_spaces": false,
+							"word_wrap": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
 			]
 		},
 		{
@@ -582,7 +636,7 @@
 		"cols":
 		[
 			0.0,
-			0.516787755497,
+			0.62122929381,
 			1.0
 		],
 		"rows":

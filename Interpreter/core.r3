@@ -35,7 +35,7 @@ sub-firstpass-rule: [
 		instruction-end:
 	]
 	(
-		if debug = 1 [
+		if debug [
 			print [
 						"S:" offset? program-start instruction-start 
 						"E:" offset? program-start instruction-end
@@ -70,7 +70,7 @@ any [ 1 [
 			rules/jlvalue   (instruction: [machine/lvalue-op param]) |
 			rules/jset		(instruction: [machine/set-op]) |
 			rules/jcopy     (instruction: [machine/copy-op]) |
-			rules/jlabel    (instruction: [])|
+			rules/jlabel    (instruction: [does [return none]])|
 			rules/jgoto     (instruction: [machine/goto-op param]) |
 			rules/jgofalse  (instruction: [machine/gofalse param]) |
 			rules/jgotrue   (instruction: [machine/gotrue-op param]) |
@@ -93,8 +93,8 @@ any [ 1 [
 			rules/jequ      (instruction: [machine/equ-op]) |
 			rules/jprint    (instruction: [machine/print-op]) |
 			rules/jshow     (instruction: [machine/show-op param]) |
-			rules/jignore   (instruction: []) |
-			rules/jnend		(instruction: []) |
+			rules/jignore   (instruction: [does [return none]]) |
+			rules/jnend		(instruction: [does [return none]]) |
 			[
 				rules/jbegin (instruction: [machine/begin-op])
 				sub-master-rule
@@ -104,7 +104,7 @@ any [ 1 [
 		instruction-end:
 	]	
 	(
-		if debug = 1 [
+		if debug [
 			print [
 				"S:" offset? program-start instruction-start 
 				"E:" offset? program-start instruction-end
@@ -117,8 +117,8 @@ any [ 1 [
 		either 'halt-op == (second to-block first instruction) [
 			next-instruction: tail program-start
 		] [
-			result: none? do instruction
-			if result [
+			result: do instruction
+			if not none? result [
 				next-instruction: skip program-start machine/jump-location
 			]
 		]

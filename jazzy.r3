@@ -3,7 +3,7 @@ REBOL [
     Authors: ["Thomas Royko" "Jayde Carney"]
 ]
 
-debug: 0
+debug: false
 
 do %Interpreter/core.r3
 
