@@ -121,9 +121,10 @@ machine: context [
 	][
 		if debug = 1 [print "(add)"]
 		frame: back back tail stack
-		var: first frame
-		var2: second frame
-		append stack var + var2
+		ret: (first frame) + (second frame)
+		remove back tail stack
+		remove back tail stack
+		append stack ret
 	]
 
 	sub-op: function [
@@ -263,7 +264,7 @@ machine: context [
 	]
 
 	halt-op: function [
-		val
+
 	][
 		if debug = 1 [print "(halt)"]
 		halt
