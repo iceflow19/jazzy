@@ -243,7 +243,15 @@
 			"file": "jazzy.r3",
 			"settings":
 			{
-				"buffer_size": 178,
+				"buffer_size": 265,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Interpreter/machine.r3",
+			"settings":
+			{
+				"buffer_size": 2243,
 				"line_ending": "Windows"
 			}
 		}
@@ -255,15 +263,23 @@
 		"selected_items":
 		[
 			[
+				"package",
+				"Package Control: Install Package"
+			],
+			[
+				"git c",
+				"Git: Commit"
+			],
+			[
+				"git",
+				"Git: Status"
+			],
+			[
 				"gitc",
 				"Git: Commit"
 			],
 			[
 				"git s",
-				"Git: Status"
-			],
-			[
-				"git",
 				"Git: Status"
 			],
 			[
@@ -301,10 +317,6 @@
 			[
 				"ch",
 				"Git: Checkout"
-			],
-			[
-				"git c",
-				"Git: Commit"
 			],
 			[
 				"git chec",
@@ -387,12 +399,16 @@
 	},
 	"expanded_folders":
 	[
-		"/C/Users/Thomas/Documents/Programming/jazzy"
+		"/C/Users/Thomas/Documents/Programming/jazzy",
+		"/C/Users/Thomas/Documents/Programming/jazzy/Test"
 	],
 	"file_history":
 	[
-		"/C/Users/Thomas/Documents/Programming/jazzy/jazzy.r3",
+		"/C/Users/Thomas/Documents/Programming/jazzy/Test/test.jaz",
+		"/C/Users/Thomas/Documents/Programming/jazzy/Test/foo.jaz",
 		"/C/Users/Thomas/Documents/Programming/jazzy/Interpreter/core.r3",
+		"/C/Users/Thomas/Documents/Programming/jazzy/Interpreter/machine.r3",
+		"/C/Users/Thomas/Documents/Programming/jazzy/jazzy.r3",
 		"/C/Users/Thomas/Documents/Programming/jazzy/.gitignore",
 		"/C/Users/Thomas/Documents/Programming/jazzy/core.r3",
 		"/C/Users/Thomas/Documents/Programming/jazzy/machine.r3",
@@ -539,33 +555,63 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 178,
+						"buffer_size": 265,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								145,
-								145
+								265,
+								265
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/REBOL/Rebol.tmLanguage"
 						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.x": -0.0,
+						"translation.y": 75.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 1,
 					"type": "text"
 				}
 			]
 		},
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 1,
+					"file": "Interpreter/machine.r3",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2243,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1443,
+								1443
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/REBOL/Rebol.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1350.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -597,7 +643,7 @@
 		"cols":
 		[
 			0.0,
-			0.418589557299,
+			0.487058025767,
 			1.0
 		],
 		"rows":
@@ -659,11 +705,11 @@
 	},
 	"select_project":
 	{
-		"height": 0.0,
+		"height": 500.0,
 		"selected_items":
 		[
 		],
-		"width": 0.0
+		"width": 380.0
 	},
 	"select_symbol":
 	{

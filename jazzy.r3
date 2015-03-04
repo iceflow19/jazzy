@@ -5,10 +5,11 @@ REBOL [
 
 do %Interpreter/core.r3
 
-file: read/string %Test/JazzyTest.jaz
+file: ask "Please enter a file: "
+file: read/string file
 valid: parse file firstpass-rule
 print either valid [
 	parse file master-rule
 ][
-	"input is not valid Jaz code!"
+	"Input is not valid Jaz code!"
 ]
