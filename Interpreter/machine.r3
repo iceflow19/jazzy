@@ -35,7 +35,7 @@ machine: context [
 		either found? value: memory/(key) [
 			append stack value
 		][
-			make error! "rvalue key does not exist in memory!"
+			append stack 0
 		]
 	]
 
@@ -70,26 +70,40 @@ machine: context [
 
 	label-op: function [
 		label
+		loc-after
 	][
 		if debug = 1 [print ["(label" label ")"]]
+		key: trim label
+		labels/(key): loc-after
 	]
 
 	goto-op: function [
-		location
+		key
 	][
 		if debug = 1 [print ["(goto" location ")"]]
+		return labels/(key)
 	]
 
 	gofalse-op: function [
-		location
+		key
 	][
 		if debug = 1 [print ["(gofalse" location ")"]]
+		temp: (last stack = 0)
+		remove back tail stack
+		if (temp) [
+			return labels/(key)
+		]
 	]
 
 	gotrue-op: function [
-		location
+		key
 	][
 		if debug = 1 [print ["(gotrue" location ")"]]
+		temp: not (last stack = 0)
+		remove back tail stack
+		if (temp) [
+			return labels/(key)
+		]
 	]
 
 	begin-op: function [
