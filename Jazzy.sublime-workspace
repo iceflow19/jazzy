@@ -240,10 +240,26 @@
 	"buffers":
 	[
 		{
+			"file": "Interpreter/core.r3",
+			"settings":
+			{
+				"buffer_size": 2054,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Interpreter/machine.r3",
+			"settings":
+			{
+				"buffer_size": 2918,
+				"line_ending": "Windows"
+			}
+		},
+		{
 			"file": "jazzy.r3",
 			"settings":
 			{
-				"buffer_size": 178,
+				"buffer_size": 210,
 				"line_ending": "Windows"
 			}
 		}
@@ -254,6 +270,10 @@
 		"height": 392.0,
 		"selected_items":
 		[
+			[
+				"pack",
+				"Package Control: Remove Package"
+			],
 			[
 				"gitc",
 				"Git: Commit"
@@ -331,10 +351,6 @@
 				"Git: Diff"
 			],
 			[
-				"pack",
-				"Package Control: Install Package"
-			],
-			[
 				"git bra",
 				"Git: Checkout New Branch"
 			],
@@ -363,7 +379,7 @@
 				"Snippet: #!/usr/bin/env"
 			]
 		],
-		"width": 400.0
+		"width": 364.0
 	},
 	"console":
 	{
@@ -387,10 +403,13 @@
 	},
 	"expanded_folders":
 	[
-		"/C/Users/Thomas/Documents/Programming/jazzy"
+		"/C/Users/Jayde/Documents/GitHub/jazzy",
+		"/C/Users/Jayde/Documents/GitHub/jazzy/Docs",
+		"/C/Users/Jayde/Documents/GitHub/jazzy/Interpreter"
 	],
 	"file_history":
 	[
+		"/C/Users/Jayde/Documents/GitHub/jazzy/jazzy.r3",
 		"/C/Users/Thomas/Documents/Programming/jazzy/jazzy.r3",
 		"/C/Users/Thomas/Documents/Programming/jazzy/Interpreter/core.r3",
 		"/C/Users/Thomas/Documents/Programming/jazzy/.gitignore",
@@ -484,7 +503,7 @@
 	],
 	"find":
 	{
-		"height": 34.0
+		"height": 23.0
 	},
 	"find_in_files":
 	{
@@ -535,19 +554,77 @@
 			[
 				{
 					"buffer": 0,
-					"file": "jazzy.r3",
+					"file": "Interpreter/core.r3",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 178,
+						"buffer_size": 2054,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								145,
-								145
+								335,
+								335
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/REBOL/Rebol.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1035.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "Interpreter/machine.r3",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2918,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								87,
+								87
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/REBOL/Rebol.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "jazzy.r3",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 210,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								210,
+								210
 							]
 						],
 						"settings":
@@ -558,7 +635,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 2,
 					"type": "text"
 				}
 			]
@@ -571,7 +648,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 34.0
+		"height": 23.0
 	},
 	"input":
 	{
@@ -597,7 +674,7 @@
 		"cols":
 		[
 			0.0,
-			0.418589557299,
+			0.596008912138,
 			1.0
 		],
 		"rows":
@@ -646,7 +723,7 @@
 	"project": "Jazzy.sublime-project",
 	"replace":
 	{
-		"height": 62.0
+		"height": 42.0
 	},
 	"save_all_on_build": true,
 	"select_file":

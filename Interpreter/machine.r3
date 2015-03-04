@@ -118,84 +118,139 @@ machine: context [
 
 	][
 		print "(add)"
+		frame: back back tail stack
+		var: first frame
+		var2: second frame
+		append stack var + var2
 	]
 
 	sub-op: function [
 
 	][
 		print "(sub)"
+		frame: back back tail stack
+		var: first frame
+		var2: second frame
+		append stack var - var2
 	]
 
 	mul-op: function [
 
 	][
 		print "(mul)"
+		frame: back back tail stack
+		var: first frame
+		var2: second frame
+		append stack var * var2
 	]
 
 	div-op: function [
 
 	][
 		print "(div)"
+		frame: back back tail stack
+		var: first frame
+		var2: second frame
+		append stack var / var2
 	]
 
 	mod-op: function [
 
 	][
 		print "(mod)"
+		frame: back back tail stack
+		var: first frame
+		var2: second frame
+		append stack var // var2
 	]
 
 	and-op: function [
 
 	][
 		print "(and)"
+		frame: back back tail stack
+		var: first frame
+		var2: second frame
+		append stack var and var2
 	]
 
 	not-op: function [
 
 	][
 		print "(not)"
+		frame: back tail stack
+		var: first frame
+		append stack not var
 	]
 
 	or-op: function [
 
 	][
 		print "(or)"
+		frame: back back tail stack
+		var: first frame
+		var2: second frame
+		append stack var or var2
 	]
 
 	not-equ-op: function [
 
 	][
 		print "(!=)"
+		frame:  back back tail stack
+		var: first frame
+		var2: second frame
+		append stack either var = var2 [0][1] 
 	]
 
 	less-equ-op: function [
 
 	][
 		print "(<=)"
+		frame:  back back tail stack
+		var: first frame
+		var2: second frame
+		append stack either var <= var2 [1][0] 
 	]
 
 	more-equ-op: function [
 
 	][
 		print "(>=)"
+		frame:  back back tail stack
+		var: first frame
+		var2: second frame
+		append stack either var >= var2 [1][0] 
 	]
 
 	less-op: function [
 
 	][
 		print "(<)"
+		frame:  back back tail stack
+		var: first frame
+		var2: second frame
+		append stack either var < var2 [1][0] 
 	]
 
 	more-op: function [
 
 	][
 		print "(>)"
+		frame:  back back tail stack
+		var: first frame
+		var2: second frame
+		append stack either var > var2 [1][0] 
 	]
 
 	equ-op: function [
 
-	][
+	][	
 		print "(=)"
+		frame:  back back tail stack
+		var: first frame
+		var2: second frame
+		append stack either var = var2 [1][0] 
 	]
 
 	print-op: function [
