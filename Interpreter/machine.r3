@@ -11,25 +11,27 @@ machine: context [
 	labels: make map! []
 	stack: []
 	call-stack: []
+	debug: 0
 
 	push-op: function [
 		val
 	][
-		print ["(push" val ")"]
+
+		if debug = 1 [print ["(push" val ")"]] 
 		append stack to-integer trim val
 	]
 	
 	pop-op: function [
 
 	][
-		print "(pop)"
+		if debug = 1 [print "(pop)"]
 		remove back tail stack
 	]
 
 	rvalue-op: function [
 		key
 	][
-		print ["(rvalue" key ")"]
+		if debug = 1 [print ["(rvalue" key ")"]]
 		either found? value: memory/(key) [
 			append stack value
 		][
@@ -40,14 +42,14 @@ machine: context [
 	lvalue-op: function [
 		key
 	][
-		print ["(lvalue" key ")"]
+		if debug = 1 [print ["(lvalue" key ")"]]
 		append stack trim key
 	]
 
 	set-op: function [
 
 	][
-		print "(set)"
+		if debug = 1 [print "(set)"]
 		frame: back back tail stack
 		key: first frame
 		either string? key [
@@ -62,158 +64,215 @@ machine: context [
 	copy-op: function [
 
 	][
-		print "(copy)"
+		if debug =1 [print "(copy)"]
 		append stack last stack
 	]
 
 	label-op: function [
 		label
 	][
-		print ["(label" label ")"]
+		if debug = 1 [print ["(label" label ")"]]
 	]
 
 	goto-op: function [
 		location
 	][
-		print ["(goto" location ")"]
+		if debug = 1 [print ["(goto" location ")"]]
 	]
 
 	gofalse-op: function [
 		location
 	][
-		print ["(gofalse" location ")"]
+		if debug = 1 [print ["(gofalse" location ")"]]
 	]
 
 	gotrue-op: function [
 		location
 	][
-		print ["(gotrue" location ")"]
+		if debug = 1 [print ["(gotrue" location ")"]]
 	]
 
 	begin-op: function [
 
 	][
-		print "(begin)"
+		if debug = 1 [print "(begin)"]
 	]
 
 	end-op: function [
 
 	][
-		print "(end)"
+		if debug = 1 [print "(end)"]
 	]
 
 	call-op: function [
 		label
 	][
-		print ["(call" label ")"]
+		if debug = 1 [print ["(call" label ")"]]
 	]
 
 	return-op: function [
 
 	][
-		print "(return)"
+		if debug = 1 [print "(return)"]
 	]
 
 	add-op: function [
 
 	][
-		print "(add)"
+		if debug = 1 [print "(add)"]
+		frame: back back tail stack
+		var: first frame
+		var2: second frame
+		append stack var + var2
 	]
 
 	sub-op: function [
 
 	][
-		print "(sub)"
+		if debug = 1 [print "(sub)"]
+		frame: back back tail stack
+		var: first frame
+		var2: second frame
+		append stack var - var2
 	]
 
 	mul-op: function [
 
 	][
-		print "(mul)"
+		if debug = 1 [print "(mul)"]
+		frame: back back tail stack
+		var: first frame
+		var2: second frame
+		append stack var * var2
 	]
 
 	div-op: function [
 
 	][
-		print "(div)"
+		if debug = 1 [print "(div)"]
+		frame: back back tail stack
+		var: first frame
+		var2: second frame
+		append stack var / var2
 	]
 
 	mod-op: function [
 
 	][
-		print "(mod)"
+		if debug = 1 [print "(mod)"]
+		frame: back back tail stack
+		var: first frame
+		var2: second frame
+		append stack var // var2
 	]
 
 	and-op: function [
 
 	][
-		print "(and)"
+		if debug = 1 [print "(and)"]
+		frame: back back tail stack
+		var: first frame
+		var2: second frame
+		append stack var and var2
 	]
 
 	not-op: function [
 
 	][
-		print "(not)"
+		if debug = 1 [print "(not)"]
+		frame: back tail stack
+		var: first frame
+		append stack not var
 	]
 
 	or-op: function [
 
 	][
-		print "(or)"
+		if debug = 1 [print "(or)"]
+		frame: back back tail stack
+		var: first frame
+		var2: second frame
+		append stack var or var2
 	]
 
 	not-equ-op: function [
 
 	][
-		print "(!=)"
+		if debug = 1 [print "(!=)"]
+		frame:  back back tail stack
+		var: first frame
+		var2: second frame
+		append stack either var = var2 [0][1] 
 	]
 
 	less-equ-op: function [
 
 	][
-		print "(<=)"
+		if debug = 1 [print "(<=)"]
+		frame:  back back tail stack
+		var: first frame
+		var2: second frame
+		append stack either var <= var2 [1][0] 
 	]
 
 	more-equ-op: function [
 
 	][
-		print "(>=)"
+		if debug = 1 [print "(>=)"]
+		frame:  back back tail stack
+		var: first frame
+		var2: second frame
+		append stack either var >= var2 [1][0] 
 	]
 
 	less-op: function [
 
 	][
-		print "(<)"
+		if debug = 1 [print "(<)"]
+		frame:  back back tail stack
+		var: first frame
+		var2: second frame
+		append stack either var < var2 [1][0] 
 	]
 
 	more-op: function [
 
 	][
-		print "(>)"
+		if debug = 1 [print "(>)"]
+		frame:  back back tail stack
+		var: first frame
+		var2: second frame
+		append stack either var > var2 [1][0] 
 	]
 
 	equ-op: function [
 
-	][
-		print "(=)"
+	][	
+		if debug = 1 [print "(=)"]
+		frame:  back back tail stack
+		var: first frame
+		var2: second frame
+		append stack either var = var2 [1][0] 
 	]
 
 	print-op: function [
 
 	][
+		if debug = 1 [print "(print)"]
 		print last stack
 	]
 
 	halt-op: function [
 		val
 	][
-		print "(halt)"
+		if debug = 1 [print "(halt)"]
 		halt
 	]
 
 	show-op: function [
 		val
 	][
+		if debug = 1 [print "(show)"]
 		print val
 	]
 ]
