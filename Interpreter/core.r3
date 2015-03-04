@@ -21,7 +21,7 @@ firstpass-rule: [
 ]
 
 sub-firstpass-rule: [
-	rules/jlabel (machine/label-op param) |
+	rules/jlabel next-instruction: [(machine/label-op param)] |
 	rules/jrvalue	| rules/jlvalue		|
 	rules/jset		| rules/jcopy      	|
 	rules/jgoto     | rules/jgofalse   	|
@@ -42,41 +42,41 @@ sub-firstpass-rule: [
 ]
 
 sub-master-rule: [
-	rules/jpush     (machine/push-op param) |
-	rules/jpop      (machine/pop-op) |
-	rules/jrvalue   (machine/rvalue-op param) |
-	rules/jlvalue   (machine/lvalue-op param) |
-	rules/jset		(machine/set-op) |
-	rules/jcopy     (machine/copy-op) |
+	rules/jpush     next-instruction:[(machine/push-op param)] |
+	rules/jpop      next-instruction:[(machine/pop-op)] |
+	rules/jrvalue   next-instruction:[(machine/rvalue-op param)] |
+	rules/jlvalue   next-instruction:[(machine/lvalue-op param)] |
+	rules/jset		next-instruction:[(machine/set-op)] |
+	rules/jcopy     next-instruction:[(machine/copy-op)] |
 	rules/jlabel     |
-	rules/jgoto     (machine/goto-op param) |
-	rules/jgofalse  (machine/gofalse param) |
-	rules/jgotrue   (machine/gotrue-op param) |
-	rules/jhalt     (machine/print-op) |
-	rules/jreturn   (machine/return-op) |
-	rules/jcall     (machine/call-op param) |
-	rules/jadd      (machine/add-op) |
-	rules/jsub      (machine/sub-op) |
-	rules/jmul      (machine/mul-op) |
-	rules/jdiv      (machine/div-op) |
-	rules/jmod      (machine/mod-op) |
-	rules/jand      (machine/and-op) |
-	rules/jnot      (machine/not-op) |
-	rules/jor       (machine/or-op) |
-	rules/jnot-equ  (machine/not-equ-op) |
-	rules/jless-equ (machine/less-equ-op) |
-	rules/jmore-equ (machine/more-equ-op) |
-	rules/jless     (machine/less-op) |
-	rules/jmore     (machine/more-op) |
-	rules/jequ      (machine/equ-op) |
-	rules/jprint    (machine/print-op) |
-	rules/jshow     (machine/show-op param) |
+	rules/jgoto     next-instruction:[(machine/goto-op param)] |
+	rules/jgofalse  next-instruction:[(machine/gofalse param)] |
+	rules/jgotrue   next-instruction:[(machine/gotrue-op param)] |
+	rules/jhalt     next-instruction:[(machine/print-op)] |
+	rules/jreturn   next-instruction:[(machine/return-op)] |
+	rules/jcall     next-instruction:[(machine/call-op param)] |
+	rules/jadd      next-instruction:[(machine/add-op)] |
+	rules/jsub      next-instruction:[(machine/sub-op)] |
+	rules/jmul      next-instruction:[(machine/mul-op)] |
+	rules/jdiv      next-instruction:[(machine/div-op)] |
+	rules/jmod      next-instruction:[(machine/mod-op)] |
+	rules/jand      next-instruction:[(machine/and-op)] |
+	rules/jnot      next-instruction:[(machine/not-op)] |
+	rules/jor       next-instruction:[(machine/or-op)] |
+	rules/jnot-equ  next-instruction:[(machine/not-equ-op)] |
+	rules/jless-equ next-instruction:[(machine/less-equ-op)] |
+	rules/jmore-equ next-instruction:[(machine/more-equ-op)] |
+	rules/jless     next-instruction:[(machine/less-op)] |
+	rules/jmore     next-instruction:[(machine/more-op)] |
+	rules/jequ      next-instruction:[(machine/equ-op)] |
+	rules/jprint    next-instruction:[(machine/print-op)] |
+	rules/jshow     next-instruction:[(machine/show-op param)] |
 	rules/jignore |
 	rules/jnend |
 	[
-		rules/jbegin (machine/begin-op)
+		rules/jbegin next-instruction:[(machine/begin-op)]
 		sub-master-rule  (print "(recurse)")
-		rules/jend   (machine/end-op)
+		rules/jend   next-instruction:[(machine/end-op)]
 	]
 ]
 
