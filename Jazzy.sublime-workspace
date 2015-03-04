@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"sub",
+				"sub-firstpass-rule"
+			],
+			[
+				"SUB",
+				"sub-master-rule"
+			],
+			[
 				"pop",
 				"pop-op"
 			],
@@ -240,13 +248,10 @@
 	"buffers":
 	[
 		{
-			"contents": "show 	Computes Factorial \nlvalue a\npush 5 \n:=\n\nbegin\n	lvalue n\n	rvalue a\n	:=\n	call factorial\n	lvalue ret\n	rvalue n1\n	:=\nend\n\nshow Factorial of \nrvalue a\nprint\npop\nshow equals\nrvalue ret\nprint\npop\nhalt\n\nlabel factorial\nrvalue n\ngofalse final\n\nbegin\n	lvalue n\n	rvalue n\n	push 1\n	-\n	:=\n    call factorial\n	lvalue ret\n	rvalue n1\n	:=\nend\nlvalue n1\nrvalue ret\nrvalue n\n*\n:=\nreturn\n\nlabel final\nlvalue n1\npush 1\n:=\nreturn\n/* \n [jdec@localhost morejazfiles]$ ./jaz recFact.jaz\n	Computes Factorial \n Factorial of \n 5\n equals\n 120\n */ \n",
-			"file": "Test/recFact.jaz",
-			"file_size": 588,
-			"file_write_time": 129714686140000000,
+			"file": "Interpreter/core.r3",
 			"settings":
 			{
-				"buffer_size": 526,
+				"buffer_size": 2654,
 				"line_ending": "Windows"
 			}
 		}
@@ -370,7 +375,7 @@
 				"Snippet: #!/usr/bin/env"
 			]
 		],
-		"width": 400.0
+		"width": 355.0
 	},
 	"console":
 	{
@@ -395,19 +400,18 @@
 	"expanded_folders":
 	[
 		"/C/Users/Thomas/Documents/Programming/jazzy",
-		"/C/Users/Thomas/Documents/Programming/jazzy/Docs",
-		"/C/Users/Thomas/Documents/Programming/jazzy/Test"
+		"/C/Users/Thomas/Documents/Programming/jazzy/Interpreter"
 	],
 	"file_history":
 	[
+		"/C/Users/Thomas/Documents/Programming/jazzy/Interpreter/machine.r3",
+		"/C/Users/Thomas/Documents/Programming/jazzy/Test/recFact.jaz",
 		"/C/Users/Thomas/Documents/Programming/jazzy/Test/demo.jaz",
 		"/C/Users/Thomas/Documents/Programming/jazzy/Test/test.jaz",
 		"/C/Users/Thomas/Documents/Programming/jazzy/.gitattributes",
 		"/C/Users/Thomas/Documents/Programming/jazzy/Test/foo.jaz",
 		"/C/Users/Thomas/Desktop/foo.out",
-		"/C/Users/Thomas/Documents/Programming/jazzy/Test/recFact.jaz",
 		"/C/Users/Thomas/Documents/Programming/jazzy/jazzy.r3",
-		"/C/Users/Thomas/Documents/Programming/jazzy/Interpreter/machine.r3",
 		"/C/Users/Thomas/Documents/Programming/jazzy/Interpreter/core.r3",
 		"/C/Users/Thomas/Documents/Programming/jazzy/.gitignore",
 		"/C/Users/Thomas/Documents/Programming/jazzy/core.r3",
@@ -546,43 +550,43 @@
 	"groups":
 	[
 		{
-			"sheets":
-			[
-			]
-		},
-		{
 			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "Test/recFact.jaz",
+					"file": "Interpreter/core.r3",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 526,
+						"buffer_size": 2654,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								313,
-								313
+								2376,
+								2376
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"syntax": "Packages/REBOL/Rebol.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 255.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
 					"type": "text"
 				}
+			]
+		},
+		{
+			"sheets":
+			[
 			]
 		}
 	],
@@ -614,7 +618,7 @@
 		"cols":
 		[
 			0.0,
-			0.487058025767,
+			0.591562530272,
 			1.0
 		],
 		"rows":
@@ -690,7 +694,7 @@
 		],
 		"width": 0.0
 	},
-	"selected_group": 1,
+	"selected_group": 0,
 	"settings":
 	{
 	},
