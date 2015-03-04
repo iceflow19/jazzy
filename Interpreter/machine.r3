@@ -132,9 +132,10 @@ machine: context [
 	][
 		if debug = 1 [print "(sub)"]
 		frame: back back tail stack
-		var: first frame
-		var2: second frame
-		append stack var - var2
+		ret: (first frame) - (second frame)
+		remove back tail stack
+		remove back tail stack
+		append stack ret
 	]
 
 	mul-op: function [
@@ -142,9 +143,10 @@ machine: context [
 	][
 		if debug = 1 [print "(mul)"]
 		frame: back back tail stack
-		var: first frame
-		var2: second frame
-		append stack var * var2
+		ret: (first frame) * (second frame)
+		remove back tail stack
+		remove back tail stack
+		append stack ret
 	]
 
 	div-op: function [
@@ -152,9 +154,10 @@ machine: context [
 	][
 		if debug = 1 [print "(div)"]
 		frame: back back tail stack
-		var: first frame
-		var2: second frame
-		append stack var / var2
+		ret: (first frame) / (second frame)
+		remove back tail stack
+		remove back tail stack
+		append stack ret
 	]
 
 	mod-op: function [
@@ -162,9 +165,10 @@ machine: context [
 	][
 		if debug = 1 [print "(mod)"]
 		frame: back back tail stack
-		var: first frame
-		var2: second frame
-		append stack var // var2
+		ret: (first frame) // (second frame)
+		remove back tail stack
+		remove back tail stack
+		append stack ret
 	]
 
 	and-op: function [
@@ -172,9 +176,10 @@ machine: context [
 	][
 		if debug = 1 [print "(and)"]
 		frame: back back tail stack
-		var: first frame
-		var2: second frame
-		append stack var and var2
+		ret: (first frame) and (second frame)
+		remove back tail stack
+		remove back tail stack
+		append stack ret
 	]
 
 	not-op: function [
@@ -182,8 +187,9 @@ machine: context [
 	][
 		if debug = 1 [print "(not)"]
 		frame: back tail stack
-		var: first frame
-		append stack not var
+		ret: not (first frame)
+		remove back tail stack
+		append stack ret
 	]
 
 	or-op: function [
@@ -191,9 +197,10 @@ machine: context [
 	][
 		if debug = 1 [print "(or)"]
 		frame: back back tail stack
-		var: first frame
-		var2: second frame
-		append stack var or var2
+		ret: (first frame) or (second frame)
+		remove back tail stack
+		remove back tail stack
+		append stack ret
 	]
 
 	not-equ-op: function [
@@ -201,9 +208,10 @@ machine: context [
 	][
 		if debug = 1 [print "(!=)"]
 		frame:  back back tail stack
-		var: first frame
-		var2: second frame
-		append stack either var = var2 [0][1] 
+		ret: either (first frame) = (second frame) [0][1]
+		remove back tail stack
+		remove back tail stack
+		append stack ret
 	]
 
 	less-equ-op: function [
@@ -211,9 +219,10 @@ machine: context [
 	][
 		if debug = 1 [print "(<=)"]
 		frame:  back back tail stack
-		var: first frame
-		var2: second frame
-		append stack either var <= var2 [1][0] 
+		ret: either (first frame) <= (second frame) [1][0]
+		remove back tail stack
+		remove back tail stack
+		append stack ret
 	]
 
 	more-equ-op: function [
@@ -221,9 +230,10 @@ machine: context [
 	][
 		if debug = 1 [print "(>=)"]
 		frame:  back back tail stack
-		var: first frame
-		var2: second frame
-		append stack either var >= var2 [1][0] 
+		ret: either (first frame) >= (second frame) [1][0]
+		remove back tail stack
+		remove back tail stack
+		append stack ret
 	]
 
 	less-op: function [
@@ -231,9 +241,10 @@ machine: context [
 	][
 		if debug = 1 [print "(<)"]
 		frame:  back back tail stack
-		var: first frame
-		var2: second frame
-		append stack either var < var2 [1][0] 
+		ret: either (first frame) < (second frame) [1][0]
+		remove back tail stack
+		remove back tail stack
+		append stack ret
 	]
 
 	more-op: function [
@@ -241,9 +252,10 @@ machine: context [
 	][
 		if debug = 1 [print "(>)"]
 		frame:  back back tail stack
-		var: first frame
-		var2: second frame
-		append stack either var > var2 [1][0] 
+		ret: either (first frame) > (second frame) [1][0]
+		remove back tail stack
+		remove back tail stack
+		append stack ret 
 	]
 
 	equ-op: function [
@@ -251,9 +263,10 @@ machine: context [
 	][	
 		if debug = 1 [print "(=)"]
 		frame:  back back tail stack
-		var: first frame
-		var2: second frame
-		append stack either var = var2 [1][0] 
+		ret: either (first frame) = (second frame) [1][0]
+		remove back tail stack
+		remove back tail stack
+		append stack ret 
 	]
 
 	print-op: function [
