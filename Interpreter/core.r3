@@ -9,7 +9,8 @@ do %machine.r3
 
 firstpass-rule: [ 
 	program-start:
-	any [ 1 	
+	any [ 1 
+		instruction-start:	
 		[sub-firstpass-rule]
 		instruction-end:
 		(
@@ -83,6 +84,7 @@ sub-master-rule: [
 master-rule: [ 
 	program-start:
 	any [ 1 
+		instruction-start:
 		[sub-master-rule]	
 		instruction-end:	
 		(
