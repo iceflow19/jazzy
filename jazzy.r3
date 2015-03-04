@@ -3,6 +3,8 @@ REBOL [
     Authors: ["Thomas Royko" "Jayde Carney"]
 ]
 
+debug: 1
+
 do %Interpreter/core.r3
 
 file: ask "Please enter a file: "

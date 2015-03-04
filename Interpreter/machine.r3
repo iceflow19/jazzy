@@ -11,7 +11,6 @@ machine: context [
 	labels: make map! []
 	stack: []
 	call-stack: []
-	debug: 0
 
 	push-op: function [
 		val

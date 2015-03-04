@@ -7,6 +7,8 @@ REBOL [
 do %rules.r3
 do %machine.r3
 
+instruction: []
+
 sub-firstpass-rule: [
 	rules/jlabel (instruction: [machine/label-op param]) |
 	rules/jrvalue	| rules/jlvalue		|
@@ -36,12 +38,15 @@ firstpass-rule: [
 		instruction-end:
 	]
 	(
+		next-instruction: instruction-end
 		repend instruction [offset? program-start instruction-end]
 		do instruction
 	)
 	:next-instruction
 	]
 ]
+
+instruction: []
 
 sub-master-rule: [
 	rules/jpush     (instruction: [machine/push-op param]) |
