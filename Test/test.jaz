@@ -5,7 +5,7 @@ show
 rvalue var
 show Variables are initialized to "zero"
 show Value of var is:
-print var
+print
 pop
 show --------------------------------
 push 5

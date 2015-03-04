@@ -247,14 +247,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "Interpreter/core.r3",
-			"settings":
-			{
-				"buffer_size": 2654,
-				"line_ending": "Windows"
-			}
-		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -263,12 +255,24 @@
 		"selected_items":
 		[
 			[
+				"git co",
+				"Git: Commit"
+			],
+			[
+				"git s",
+				"Git: Status"
+			],
+			[
 				"git c",
 				"Git: Commit"
 			],
 			[
 				"git",
 				"Git: Status"
+			],
+			[
+				"git st",
+				"Git: Add Signed Tag"
 			],
 			[
 				"package",
@@ -279,19 +283,11 @@
 				"Git: Commit"
 			],
 			[
-				"git s",
-				"Git: Status"
-			],
-			[
 				"gt",
 				"Git: Show"
 			],
 			[
 				"git ",
-				"Git: Status"
-			],
-			[
-				"git st",
 				"Git: Status"
 			],
 			[
@@ -309,10 +305,6 @@
 			[
 				"git che",
 				"Git: Checkout"
-			],
-			[
-				"git co",
-				"Git: Commit"
 			],
 			[
 				"ch",
@@ -375,7 +367,7 @@
 				"Snippet: #!/usr/bin/env"
 			]
 		],
-		"width": 355.0
+		"width": 400.0
 	},
 	"console":
 	{
@@ -399,20 +391,21 @@
 	},
 	"expanded_folders":
 	[
-		"/C/Users/Thomas/Documents/Programming/jazzy",
-		"/C/Users/Thomas/Documents/Programming/jazzy/Interpreter"
+		"/C/Users/Thomas/Documents/Programming/jazzy"
 	],
 	"file_history":
 	[
+		"/C/Users/Thomas/Documents/Programming/jazzy/jazzy.r3",
 		"/C/Users/Thomas/Documents/Programming/jazzy/Interpreter/machine.r3",
+		"/C/Users/Thomas/Documents/Programming/jazzy/Test/test.jaz",
+		"/C/Users/Thomas/Documents/Programming/jazzy/Test/JazzyTest.jaz",
+		"/C/Users/Thomas/Documents/Programming/jazzy/Interpreter/core.r3",
+		"/C/Users/Thomas/Documents/Programming/jazzy/Interpreter/rules.r3",
 		"/C/Users/Thomas/Documents/Programming/jazzy/Test/recFact.jaz",
 		"/C/Users/Thomas/Documents/Programming/jazzy/Test/demo.jaz",
-		"/C/Users/Thomas/Documents/Programming/jazzy/Test/test.jaz",
 		"/C/Users/Thomas/Documents/Programming/jazzy/.gitattributes",
 		"/C/Users/Thomas/Documents/Programming/jazzy/Test/foo.jaz",
 		"/C/Users/Thomas/Desktop/foo.out",
-		"/C/Users/Thomas/Documents/Programming/jazzy/jazzy.r3",
-		"/C/Users/Thomas/Documents/Programming/jazzy/Interpreter/core.r3",
 		"/C/Users/Thomas/Documents/Programming/jazzy/.gitignore",
 		"/C/Users/Thomas/Documents/Programming/jazzy/core.r3",
 		"/C/Users/Thomas/Documents/Programming/jazzy/machine.r3",
@@ -518,6 +511,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"[]\n",
 			"halt",
 			"!:",
 			" : function!",
@@ -550,38 +544,8 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "Interpreter/core.r3",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2654,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2376,
-								2376
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/REBOL/Rebol.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
 			]
 		},
 		{
@@ -618,7 +582,7 @@
 		"cols":
 		[
 			0.0,
-			0.591562530272,
+			0.516787755497,
 			1.0
 		],
 		"rows":

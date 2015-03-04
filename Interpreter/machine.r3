@@ -11,6 +11,7 @@ machine: context [
 	labels: make map! []
 	stack: []
 	call-stack: []
+	jump-location: 0
 
 	push-op: function [
 		val
@@ -80,7 +81,8 @@ machine: context [
 		key
 	][
 		if debug = 1 [print ["(goto" location ")"]]
-		return labels/(key)
+		jump-location: labels/(key)
+		return true
 	]
 
 	gofalse-op: function [
@@ -90,7 +92,8 @@ machine: context [
 		temp: (last stack = 0)
 		remove back tail stack
 		if (temp) [
-			return labels/(key)
+			jump-location: labels/(key)
+			return true
 		]
 	]
 
@@ -101,7 +104,8 @@ machine: context [
 		temp: not (last stack = 0)
 		remove back tail stack
 		if (temp) [
-			return labels/(key)
+			jump-location: labels/(key)
+			return true
 		]
 	]
 
@@ -167,7 +171,7 @@ machine: context [
 	][
 		if debug = 1 [print "(div)"]
 		frame: back back tail stack
-		ret: (first frame) / (second frame)
+		ret: to-integer (first frame) / (second frame)
 		remove back tail stack
 		remove back tail stack
 		append stack ret
@@ -199,8 +203,7 @@ machine: context [
 
 	][
 		if debug = 1 [print "(not)"]
-		frame: back tail stack
-		ret: not (first frame)
+		ret: either (last stack) = 0 [1][0]
 		remove back tail stack
 		append stack ret
 	]
