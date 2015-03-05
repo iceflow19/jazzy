@@ -4,6 +4,30 @@
 		"selected_items":
 		[
 			[
+				"ab",
+				"jazzy-about"
+			],
+			[
+				"jazzy",
+				"jazzy-about"
+			],
+			[
+				"re",
+				"reduce"
+			],
+			[
+				"lo",
+				"loc-after"
+			],
+			[
+				"sc",
+				"scopes"
+			],
+			[
+				"p",
+				"print"
+			],
+			[
 				"call",
 				"call-stack"
 			],
@@ -30,14 +54,6 @@
 			[
 				"pop",
 				"pop-op"
-			],
-			[
-				"re",
-				"return"
-			],
-			[
-				"lo",
-				"location"
 			],
 			[
 				"vl",
@@ -126,10 +142,6 @@
 			[
 				"pc",
 				"pinclude	#include"
-			],
-			[
-				"p",
-				"penum	#enum"
 			],
 			[
 				"M",
@@ -259,41 +271,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "Interpreter/core.r3",
-			"settings":
-			{
-				"buffer_size": 3900,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "REBOL [\n    Title: \"Jazzy Interpreter\"\n    Authors: [\"Thomas Royko\" \"Jayde Carney\"]\n]\n\nmachine: context [\n\n\n	memory: make object! [\n		\n		scopes: []\n		lscope: rscope: first append scopes make map! []\n\n		rprev-lnext: does [\n			append scopes lscope: make map! []\n			rscope: first back back tail scopes\n		]\n\n		rlnext: does [\n			lscope: rscope: last remove back tail scopes\n		]\n\n		rlprev: does [\n			lscope: rscope: last scopes\n		]\n\n		rnext-lprev: does [\n			rscope: last scopes\n			lscope: first back back tail scopes\n		]\n	]\n	\n	labels: make map! []\n	stack: []\n	call-stack: []\n\n	push-op: function [\n		val\n	][\n\n		if debug [print [\"(push\" val \")\"]]\n		append stack to-integer trim val\n		return none\n	]\n	\n	pop-op: function [\n\n	][\n		if debug [print \"(pop)\"]\n		remove back tail stack\n		return none\n	]\n\n	rvalue-op: function [\n		key\n	][\n		if debug [print [\"(rvalue\" key \")\"]]\n		either found? value: select memory/rscope key [\n			append stack value\n		][\n			append stack 0\n		]\n		return none\n	]\n\n	lvalue-op: function [\n		key\n	][\n		if debug [print [\"(lvalue\" key \")\"]]\n		append stack trim key\n		return none\n	]\n\n	set-op: function [\n\n	][\n		if debug [print \"(set)\"]\n		frame: back back tail stack\n		key: first frame\n		either string? key [\n			insert memory/lscope reduce [key second frame]\n			remove/part (back back tail stack) 2\n		][\n			make error! \"not a valid memory location!\"\n		]\n		return none\n	]\n\n	copy-op: function [\n\n	][\n		if debug =1 [print \"(copy)\"]\n		append stack last stack\n		return none\n	]\n\n	label-op: function [\n		label\n		loc-after\n	][\n		if debug [print [\"(label\" label loc-after \")\"]]\n		key: trim label\n		labels/(key): loc-after\n		return none\n	]\n\n	goto-op: function [\n		key\n	][\n		if debug [print [\"(goto\" key \")\"]]\n		return labels/(key)\n	]\n\n	gofalse-op: function [\n		key\n	][\n		if debug [print [\"(gofalse\" key \")\"]]\n		temp: (last stack) = 0\n		remove back tail stack\n		either temp [\n			return labels/(key)\n		][\n			return none\n		]\n	]\n\n	gotrue-op: function [\n		key\n	][\n		if debug [print [\"(gotrue\" key \")\"]]\n		temp: not ((last stack) = 0)\n		remove back tail stack\n		either temp [\n			return select labels key\n		][\n			return none\n		]\n	]\n\n	begin-op: function [\n\n	][\n		if debug [print \"(begin)\"]\n		memory/rprev-lnext\n		return none\n	]\n\n	end-op: function [\n\n	][\n		if debug [print \"(end)\"]\n		memory/rlprev\n		return none\n	]\n\n	call-op: function [\n		label\n	][\n		if debug [print [\"(call\" label \")\"]]\n		memory/rlnext\n		either found? location: select labels label [\n			append call-stack location\n			return location\n		][\n			make error! \"label not found!\"\n			return none\n		]\n		return none\n	]\n\n	return-op: function [\n\n	][\n		if debug [print \"(return)\"]\n		memory/rnext-lprev\n		location: last call-stack\n		remove back tail call-stack\n		return location\n	]\n\n	add-op: function [\n\n	][\n		if debug [print \"(add)\"]\n		frame: back back tail stack\n		ret: (first frame) + (second frame)\n		remove/part (back back tail stack) 2\n		append stack ret\n		return none\n	]\n\n	sub-op: function [\n\n	][\n		if debug [print \"(sub)\"]\n		frame: back back tail stack\n		ret: (first frame) - (second frame)\n		remove/part (back back tail stack) 2\n		append stack ret\n		return none\n	]\n\n	mul-op: function [\n\n	][\n		if debug [print \"(mul)\"]\n		frame: back back tail stack\n		ret: (first frame) * (second frame)\n		remove/part (back back tail stack) 2\n		append stack ret\n		return none\n	]\n\n	div-op: function [\n\n	][\n		if debug [print \"(div)\"]\n		frame: back back tail stack\n		ret: to-integer (first frame) / (second frame)\n		remove/part (back back tail stack) 2\n		append stack ret\n		return none\n	]\n\n	mod-op: function [\n\n	][\n		if debug [print \"(mod)\"]\n		frame: back back tail stack\n		ret: (first frame) // (second frame)\n		remove/part (back back tail stack) 2\n		append stack ret\n		return none\n	]\n\n	and-op: function [\n\n	][\n		if debug [print \"(and)\"]\n		frame: back back tail stack\n		ret: (first frame) and (second frame)\n		remove/part (back back tail stack) 2\n		append stack ret\n		return none\n	]\n\n	not-op: function [\n\n	][\n		if debug [print \"(not)\"]\n		ret: either (last stack) = 0 [1][0]\n		remove back tail stack\n		append stack ret\n		return none\n	]\n\n	or-op: function [\n\n	][\n		if debug [print \"(or)\"]\n		frame: back back tail stack\n		ret: (first frame) or (second frame)\n		remove/part (back back tail stack) 2\n		append stack ret\n		return none\n	]\n\n	not-equ-op: function [\n\n	][\n		if debug [print \"(!=)\"]\n		frame:  back back tail stack\n		ret: either (first frame) = (second frame) [0][1]\n		remove/part (back back tail stack) 2\n		append stack ret\n		return none\n	]\n\n	less-equ-op: function [\n\n	][\n		if debug [print \"(<=)\"]\n		frame:  back back tail stack\n		ret: either (first frame) <= (second frame) [1][0]\n		remove/part (back back tail stack) 2\n		append stack ret\n		return none\n	]\n\n	more-equ-op: function [\n\n	][\n		if debug [print \"(>=)\"]\n		frame:  back back tail stack\n		ret: either (first frame) >= (second frame) [1][0]\n		remove/part (back back tail stack) 2\n		append stack ret\n		return none\n	]\n\n	less-op: function [\n\n	][\n		if debug [print \"(<)\"]\n		frame:  back back tail stack\n		ret: either (first frame) < (second frame) [1][0]\n		remove/part (back back tail stack) 2\n		append stack ret\n		return none\n	]\n\n	more-op: function [\n\n	][\n		if debug [print \"(>)\"]\n		frame:  back back tail stack\n		ret: either (first frame) > (second frame) [1][0]\n		remove/part (back back tail stack) 2\n		append stack ret\n		return none\n	]\n\n	equ-op: function [\n\n	][	\n		if debug [print \"(=)\"]\n		frame:  back back tail stack\n		ret: either (first frame) = (second frame) [1][0]\n		remove/part (back back tail stack) 2\n		append stack ret\n		return none\n	]\n\n	print-op: function [\n\n	][\n		if debug [print \"(print)\"]\n		print last stack\n		return none\n	]\n\n	halt-op: function [\n\n	][\n		if debug [print \"(halt)\"]\n		halt\n		return none\n	]\n\n	show-op: function [\n		val\n	][\n		if debug [print \"(show)\"]\n		print val\n		return none\n	]\n]",
-			"file": "Interpreter/machine.r3",
-			"file_size": 6169,
-			"file_write_time": 130700025893099144,
-			"settings":
-			{
-				"buffer_size": 5797,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "Test/recFact.jaz",
-			"settings":
-			{
-				"buffer_size": 528,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "jazzy.r3",
-			"settings":
-			{
-				"buffer_size": 346,
-				"line_ending": "Windows"
-			}
-		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -301,6 +278,18 @@
 		"height": 392.0,
 		"selected_items":
 		[
+			[
+				"git c",
+				"Git: Commit"
+			],
+			[
+				"git",
+				"Git: Status"
+			],
+			[
+				"git co",
+				"Git: Commit"
+			],
 			[
 				"gith",
 				"Git: Push"
@@ -318,20 +307,8 @@
 				"Package Control: Install Package"
 			],
 			[
-				"git co",
-				"Git: Commit"
-			],
-			[
-				"git",
-				"Git: Status"
-			],
-			[
 				"git s",
 				"Git: Status"
-			],
-			[
-				"git c",
-				"Git: Commit"
 			],
 			[
 				"git st",
@@ -451,21 +428,26 @@
 	"expanded_folders":
 	[
 		"/C/Users/Thomas/Documents/Programming/jazzy",
-		"/C/Users/Thomas/Documents/Programming/jazzy/Interpreter",
-		"/C/Users/Thomas/Documents/Programming/jazzy/Test"
+		"/C/Users/Thomas/Documents/Programming/jazzy/Build"
 	],
 	"file_history":
 	[
-		"/C/Users/Thomas/Documents/Programming/jazzy/Test/JazzyTest.jaz",
-		"/C/Users/Thomas/Documents/Programming/jazzy/Interpreter/core.r3",
-		"/C/Users/Thomas/Documents/Programming/jazzy/Interpreter/machine.r3",
-		"/C/Users/Thomas/Documents/Programming/jazzy/Test/recFact.jaz",
-		"/C/Users/Thomas/Documents/Programming/jazzy/Interpreter/rules.r3",
 		"/C/Users/Thomas/Documents/Programming/jazzy/jazzy.r3",
+		"/C/Users/Thomas/Documents/Programming/jazzy/Build/jazzyx.r3",
+		"/C/Users/Thomas/Documents/Programming/jazzy/Build/jazzyx.bat",
+		"/C/Users/Thomas/AppData/Local/Temp/nss1E11.tmp/XpackerX.commandline",
+		"/C/Users/Thomas/Documents/Programming/jazzy/Build/jazzy.xml",
+		"/C/Users/Thomas/AppData/Local/Temp/nsl7EA7.tmp/XpackerX.exedir",
+		"/C/Users/Thomas/Documents/Programming/jazzy/Interpreter/machine.r3",
 		"/C/Users/Thomas/Documents/Programming/jazzy/.gitignore",
-		"/C/Users/Thomas/Documents/Programming/jazzy/Test/foo.jaz",
-		"/C/Users/Thomas/Documents/Programming/jazzy/Test/factProc.jaz",
+		"/C/Users/Thomas/Documents/Programming/jazzy/Interpreter/core.r3",
+		"/C/Users/Thomas/Documents/Programming/jazzy/LICENSE",
+		"/C/Users/Thomas/Documents/Programming/jazzy/Interpreter/rules.r3",
+		"/C/Users/Thomas/Documents/Programming/jazzy/Test/recFact.jaz",
 		"/C/Users/Thomas/Documents/Programming/jazzy/Test/demo.jaz",
+		"/C/Users/Thomas/Documents/Programming/jazzy/Test/foo.jaz",
+		"/C/Users/Thomas/Documents/Programming/jazzy/Test/JazzyTest.jaz",
+		"/C/Users/Thomas/Documents/Programming/jazzy/Test/factProc.jaz",
 		"/C/Users/Thomas/Documents/Programming/jazzy/.gitattributes",
 		"/C/Users/Thomas/Documents/Programming/jazzy/Test/test.jaz",
 		"/C/Users/Thomas/Desktop/foo.out",
@@ -573,6 +555,11 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"rule",
+			"debug",
+			"memory",
+			"print [newline rscope newline]",
+			"print [newline lscope newline]",
 			"debug = 1",
 			"result",
 			"res",
@@ -611,130 +598,13 @@
 	"groups":
 	[
 		{
-			"selected": 1,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "Interpreter/core.r3",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3900,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3552,
-								3552
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/REBOL/Rebol.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "Interpreter/machine.r3",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5797,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5,
-								5
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/REBOL/Rebol.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
 			]
 		},
 		{
-			"selected": 1,
 			"sheets":
 			[
-				{
-					"buffer": 2,
-					"file": "Test/recFact.jaz",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 528,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								528,
-								528
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 630.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "jazzy.r3",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 346,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								242,
-								242
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/REBOL/Rebol.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				}
 			]
 		}
 	],
@@ -766,7 +636,7 @@
 		"cols":
 		[
 			0.0,
-			0.581787521079,
+			0.413996627318,
 			1.0
 		],
 		"rows":

@@ -35,7 +35,9 @@ ls          - list files in directory
 reset       - reset the interpreter
 }
 
-original-dir: what-dir
+xpackerx-dir: what-dir
+run-dir: to-rebol-file read/string %XpackerX.exedir
+cd :run-dir
 print jazzy-about
 
 forever [
@@ -58,9 +60,10 @@ forever [
 		]
 		"ls" [ ls ]
 		"reset" [
-			cd :original-dir
-			print ["==" what-dir]
+			cd :xpackerx-dir
 			do %Interpreter/core.r3
+			cd: run-dir
+			print ["==" what-dir]
 		]
 	][
 		file: read/string to-rebol-file input

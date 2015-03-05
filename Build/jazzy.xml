@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<xpackerdefinition>
+	<general>
+		<appname>Jazzy</appname>
+		<exepath>jazzy.exe</exepath>
+		<iconpath>console.ico</iconpath>
+		<showextractioninfo>false</showextractioninfo>
+	</general>
+	<files>
+		<file>
+			<source>..\r3.exe</source>
+			<destination>r3.exe</destination>
+		</file>
+		<file>
+			<source>jazzyx.r3</source>
+			<destination>jazzyx.r3</destination>
+		</file>
+		<file>
+			<source>..\Interpreter\core.r3</source>
+			<destination>Interpreter\core.r3</destination>
+		</file>
+		<file>
+			<source>..\Interpreter\machine.r3</source>
+			<destination>Interpreter\machine.r3</destination>
+		</file>
+		<file>
+			<source>..\Interpreter\rules.r3</source>
+			<destination>Interpreter\rules.r3</destination>
+		</file>
+	</files>
+	<onrun>$TMPRUN\r3.exe $TMPRUN\jazzyx.r3</onrun>
+</xpackerdefinition>
