@@ -3,6 +3,8 @@ REBOL [
     Authors: ["Thomas Royko" "Jayde Carney"]
 ]
 
+debug: false
+
 ;import the other modules
 do %rules.r3
 do %machine.r3
@@ -13,6 +15,7 @@ sub-firstpass-rule: [
 		instruction-start:	
 		[
 			rules/jlabel (instruction: [ machine/label-op param]) |
+			rules/jignore 	| rules/jreturn		|
 			rules/jrvalue	| rules/jlvalue		|
 			rules/jset		| rules/jcopy      	|
 			rules/jgoto     | rules/jgofalse   	|
@@ -25,9 +28,8 @@ sub-firstpass-rule: [
 			rules/jless-equ | rules/jmore-equ  	|
 			rules/jless     | rules/jmore      	|
 			rules/jequ      | rules/jprint     	|
-			rules/jshow     | rules/jignore 	|
+			rules/jshow     | rules/jpop		|
 			rules/jnend 	| rules/jpush		|
-			rules/jpop		| rules/jreturn		|
 			[
 				rules/jbegin sub-firstpass-rule rules/jend
 			]
@@ -37,10 +39,10 @@ sub-firstpass-rule: [
 	(
 		if debug [
 			print [
-						"S:" offset? program-start instruction-start 
-						"E:" offset? program-start instruction-end
-						"->"
-						mold copy/part instruction-start instruction-end
+				"S:" offset? program-start instruction-start 
+				"E:" offset? program-start instruction-end
+				"->"
+				mold copy/part instruction-start instruction-end
 			]
 		]
 		next-instruction: instruction-end
@@ -60,10 +62,11 @@ firstpass-rule: [
 instruction: []
 
 sub-master-rule: [
-any [ 1 [
+	any [ 1 [
 		(instruction: [])
 		instruction-start:
 		[
+			rules/jignore   (instruction: [does [return none]]) |
 			rules/jpush     (instruction: [machine/push-op param]) |
 			rules/jpop      (instruction: [machine/pop-op]) |
 			rules/jrvalue   (instruction: [machine/rvalue-op param]) |
@@ -72,7 +75,7 @@ any [ 1 [
 			rules/jcopy     (instruction: [machine/copy-op]) |
 			rules/jlabel    (instruction: [does [return none]])|
 			rules/jgoto     (instruction: [machine/goto-op param]) |
-			rules/jgofalse  (instruction: [machine/gofalse param]) |
+			rules/jgofalse  (instruction: [machine/gofalse-op param]) |
 			rules/jgotrue   (instruction: [machine/gotrue-op param]) |
 			rules/jhalt     (instruction: [machine/halt-op]) |
 			rules/jreturn   (instruction: [machine/return-op]) |
@@ -93,12 +96,11 @@ any [ 1 [
 			rules/jequ      (instruction: [machine/equ-op]) |
 			rules/jprint    (instruction: [machine/print-op]) |
 			rules/jshow     (instruction: [machine/show-op param]) |
-			rules/jignore   (instruction: [does [return none]]) |
 			rules/jnend		(instruction: [does [return none]]) |
 			[
-				rules/jbegin (instruction: [machine/begin-op])
+				rules/jbegin (machine/begin-op)
 				sub-master-rule
-				rules/jend   (instruction: [machine/end-op])
+				rules/jend   (machine/end-op)
 			]
 		]
 		instruction-end:
@@ -119,7 +121,7 @@ any [ 1 [
 		] [
 			result: do instruction
 			if not none? result [
-				next-instruction: skip program-start machine/jump-location
+				next-instruction: skip program-start result
 			]
 		]
 		;trace off

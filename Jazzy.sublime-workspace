@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"call",
+				"call-stack"
+			],
+			[
+				"rl",
+				"rlnext"
+			],
+			[
+				"r",
+				"rprev-lnext"
+			],
+			[
 				"n",
 				"none"
 			],
@@ -34,10 +46,6 @@
 			[
 				"val",
 				"value"
-			],
-			[
-				"r",
-				"r3"
 			],
 			[
 				"met",
@@ -252,14 +260,35 @@
 	"buffers":
 	[
 		{
-			"contents": "Remote:   origin @ https://github.com/iceflow19/jazzy.git\nLocal:    master ~\\Documents\\Programming\\jazzy\nHead:     5095b98 Fixing interpreter and major fixes\n\n\nNothing to commit (working directory clean)\n\n# Movement:\n#    r = refresh status\n#    1-5 = jump to section\n#    n = next item, N = next section\n#    p = previous item, P = previous section\n#\n# Staging:\n#    s = stage file/section, S = stage all unstaged files\n#    ctrl+shift+s = stage all unstaged and untracked files\n#    u = unstage file/section, U = unstage all files\n#    backspace = discard file/section, shift+backspace = discard everything\n#\n# Commit:\n#    c = commit, C = commit -a (add unstaged)\n#    ctrl+shift+c = commit --amend (amend previous commit)\n#\n# Other:\n#    i = ignore file, I = ignore pattern\n#    enter = open file\n#    d = view diff\n#\n# Stashes:\n#    a = apply stash, A = pop stash\n#    z = create stash, Z = create stash including untracked files\n#    backspace = discard stash",
+			"file": "Interpreter/core.r3",
 			"settings":
 			{
-				"buffer_size": 965,
-				"line_ending": "Windows",
-				"name": "*git-status*: jazzy",
-				"read_only": true,
-				"scratch": true
+				"buffer_size": 3900,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Interpreter/machine.r3",
+			"settings":
+			{
+				"buffer_size": 5878,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Test/recFact.jaz",
+			"settings":
+			{
+				"buffer_size": 528,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "jazzy.r3",
+			"settings":
+			{
+				"buffer_size": 346,
+				"line_ending": "Windows"
 			}
 		}
 	],
@@ -406,23 +435,25 @@
 	},
 	"expanded_folders":
 	[
-		"/C/Users/Thomas/Documents/Programming/jazzy"
+		"/C/Users/Thomas/Documents/Programming/jazzy",
+		"/C/Users/Thomas/Documents/Programming/jazzy/Interpreter",
+		"/C/Users/Thomas/Documents/Programming/jazzy/Test"
 	],
 	"file_history":
 	[
+		"/C/Users/Thomas/Documents/Programming/jazzy/Test/JazzyTest.jaz",
 		"/C/Users/Thomas/Documents/Programming/jazzy/Interpreter/core.r3",
-		"/C/Users/Thomas/Documents/Programming/jazzy/Test/test.jaz",
-		"/C/Users/Thomas/Documents/Programming/jazzy/jazzy.r3",
 		"/C/Users/Thomas/Documents/Programming/jazzy/Interpreter/machine.r3",
+		"/C/Users/Thomas/Documents/Programming/jazzy/Test/recFact.jaz",
+		"/C/Users/Thomas/Documents/Programming/jazzy/Interpreter/rules.r3",
+		"/C/Users/Thomas/Documents/Programming/jazzy/jazzy.r3",
+		"/C/Users/Thomas/Documents/Programming/jazzy/.gitignore",
+		"/C/Users/Thomas/Documents/Programming/jazzy/Test/foo.jaz",
 		"/C/Users/Thomas/Documents/Programming/jazzy/Test/factProc.jaz",
 		"/C/Users/Thomas/Documents/Programming/jazzy/Test/demo.jaz",
-		"/C/Users/Thomas/Documents/Programming/jazzy/Test/foo.jaz",
-		"/C/Users/Thomas/Documents/Programming/jazzy/Test/recFact.jaz",
-		"/C/Users/Thomas/Documents/Programming/jazzy/Test/JazzyTest.jaz",
-		"/C/Users/Thomas/Documents/Programming/jazzy/Interpreter/rules.r3",
 		"/C/Users/Thomas/Documents/Programming/jazzy/.gitattributes",
+		"/C/Users/Thomas/Documents/Programming/jazzy/Test/test.jaz",
 		"/C/Users/Thomas/Desktop/foo.out",
-		"/C/Users/Thomas/Documents/Programming/jazzy/.gitignore",
 		"/C/Users/Thomas/Documents/Programming/jazzy/core.r3",
 		"/C/Users/Thomas/Documents/Programming/jazzy/machine.r3",
 		"/C/Users/Thomas/Documents/Programming/jazzy/rules.r3",
@@ -527,6 +558,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"debug = 1",
 			"result",
 			"res",
 			"result",
@@ -549,6 +581,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"debug",
 			": function [][]",
 			": function [][",
 			"",
@@ -563,38 +596,62 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
+					"file": "Interpreter/core.r3",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 965,
+						"buffer_size": 3900,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								160,
-								160
+								3552,
+								3552
 							]
 						],
 						"settings":
 						{
-							"__vi_external_disable": true,
-							"draw_white_space": "none",
-							"git_repo": "C:\\Users\\Thomas\\Documents\\Programming\\jazzy",
-							"git_status": true,
-							"git_view": "status",
-							"syntax": "Packages/SublimeGit/syntax/SublimeGit Status.tmLanguage",
-							"translate_tabs_to_spaces": false,
-							"word_wrap": false
+							"syntax": "Packages/REBOL/Rebol.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "Interpreter/machine.r3",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5878,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								587,
+								587
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/REBOL/Rebol.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 135.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -603,8 +660,66 @@
 			]
 		},
 		{
+			"selected": 1,
 			"sheets":
 			[
+				{
+					"buffer": 2,
+					"file": "Test/recFact.jaz",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 528,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								528,
+								528
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 630.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "jazzy.r3",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 346,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								242,
+								242
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/REBOL/Rebol.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -636,7 +751,7 @@
 		"cols":
 		[
 			0.0,
-			0.62122929381,
+			0.581787521079,
 			1.0
 		],
 		"rows":
@@ -720,7 +835,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 250.0,
+	"side_bar_width": 174.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

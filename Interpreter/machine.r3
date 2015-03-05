@@ -3,21 +3,44 @@ REBOL [
     Authors: ["Thomas Royko" "Jayde Carney"]
 ]
 
-
-
 machine: context [
 
-	memory: make map! []
+
+	memory: make object! [
+		
+		scopes: []
+		lscope: rscope: first append scopes make map! []
+
+		rprev-lnext: does [
+			append scopes lscope: make map! []
+			rscope: first back back tail scopes
+		]
+
+		rlnext: does [
+			lscope: rscope: last remove back tail scopes
+		]
+
+		rlprev: does [
+			lscope: rscope: last scopes
+		]
+
+		rnext-lprev: does [
+			rscope: last scopes
+			lscope: first back back tail scopes
+		]
+	]
+
+	memory/init
+	
 	labels: make map! []
 	stack: []
 	call-stack: []
-	jump-location: 0
 
 	push-op: function [
 		val
 	][
 
-		if debug [print ["(push" val ")"]] 
+		if debug [print ["(push" val ")"]]
 		append stack to-integer trim val
 		return none
 	]
@@ -34,7 +57,7 @@ machine: context [
 		key
 	][
 		if debug [print ["(rvalue" key ")"]]
-		either found? value: memory/(key) [
+		either found? value: select memory/rscope key [
 			append stack value
 		][
 			append stack 0
@@ -57,8 +80,8 @@ machine: context [
 		frame: back back tail stack
 		key: first frame
 		either string? key [
-			memory/(key): second frame
-			remove remove back back tail stack
+			insert memory/lscope reduce [key second frame]
+			remove/part (back back tail stack) 2
 		][
 			make error! "not a valid memory location!"
 		]
@@ -77,7 +100,7 @@ machine: context [
 		label
 		loc-after
 	][
-		if debug [print ["(label" label ")"]]
+		if debug [print ["(label" label loc-after ")"]]
 		key: trim label
 		labels/(key): loc-after
 		return none
@@ -86,14 +109,14 @@ machine: context [
 	goto-op: function [
 		key
 	][
-		if debug [print ["(goto" location ")"]]
+		if debug [print ["(goto" key ")"]]
 		return labels/(key)
 	]
 
 	gofalse-op: function [
 		key
 	][
-		if debug [print ["(gofalse" location ")"]]
+		if debug [print ["(gofalse" key ")"]]
 		temp: (last stack) = 0
 		remove back tail stack
 		either temp [
@@ -106,11 +129,11 @@ machine: context [
 	gotrue-op: function [
 		key
 	][
-		if debug [print ["(gotrue" location ")"]]
+		if debug [print ["(gotrue" key ")"]]
 		temp: not ((last stack) = 0)
 		remove back tail stack
 		either temp [
-			return labels/(key)
+			return select labels key
 		][
 			return none
 		]
@@ -120,6 +143,7 @@ machine: context [
 
 	][
 		if debug [print "(begin)"]
+		memory/rprev-lnext
 		return none
 	]
 
@@ -127,6 +151,7 @@ machine: context [
 
 	][
 		if debug [print "(end)"]
+		memory/rlprev
 		return none
 	]
 
@@ -134,6 +159,14 @@ machine: context [
 		label
 	][
 		if debug [print ["(call" label ")"]]
+		memory/rlnext
+		either found? location: select labels label [
+			append call-stack location
+			return location
+		][
+			make error! "label not found!"
+			return none
+		]
 		return none
 	]
 
@@ -141,7 +174,10 @@ machine: context [
 
 	][
 		if debug [print "(return)"]
-		return none
+		memory/rnext-lprev
+		location: last call-stack
+		remove back tail call-stack
+		return location
 	]
 
 	add-op: function [
@@ -150,7 +186,7 @@ machine: context [
 		if debug [print "(add)"]
 		frame: back back tail stack
 		ret: (first frame) + (second frame)
-		remove remove back back tail stack
+		remove/part (back back tail stack) 2
 		append stack ret
 		return none
 	]
@@ -161,7 +197,7 @@ machine: context [
 		if debug [print "(sub)"]
 		frame: back back tail stack
 		ret: (first frame) - (second frame)
-		remove remove back back tail stack
+		remove/part (back back tail stack) 2
 		append stack ret
 		return none
 	]
@@ -172,7 +208,7 @@ machine: context [
 		if debug [print "(mul)"]
 		frame: back back tail stack
 		ret: (first frame) * (second frame)
-		remove remove back back tail stack
+		remove/part (back back tail stack) 2
 		append stack ret
 		return none
 	]
@@ -183,7 +219,7 @@ machine: context [
 		if debug [print "(div)"]
 		frame: back back tail stack
 		ret: to-integer (first frame) / (second frame)
-		remove remove back back tail stack
+		remove/part (back back tail stack) 2
 		append stack ret
 		return none
 	]
@@ -194,7 +230,7 @@ machine: context [
 		if debug [print "(mod)"]
 		frame: back back tail stack
 		ret: (first frame) // (second frame)
-		remove remove back back tail stack
+		remove/part (back back tail stack) 2
 		append stack ret
 		return none
 	]
@@ -205,7 +241,7 @@ machine: context [
 		if debug [print "(and)"]
 		frame: back back tail stack
 		ret: (first frame) and (second frame)
-		remove remove back back tail stack
+		remove/part (back back tail stack) 2
 		append stack ret
 		return none
 	]
@@ -226,7 +262,7 @@ machine: context [
 		if debug [print "(or)"]
 		frame: back back tail stack
 		ret: (first frame) or (second frame)
-		remove remove back back tail stack
+		remove/part (back back tail stack) 2
 		append stack ret
 		return none
 	]
@@ -237,7 +273,7 @@ machine: context [
 		if debug [print "(!=)"]
 		frame:  back back tail stack
 		ret: either (first frame) = (second frame) [0][1]
-		remove remove back back tail stack
+		remove/part (back back tail stack) 2
 		append stack ret
 		return none
 	]
@@ -248,7 +284,7 @@ machine: context [
 		if debug [print "(<=)"]
 		frame:  back back tail stack
 		ret: either (first frame) <= (second frame) [1][0]
-		remove remove back back tail stack
+		remove/part (back back tail stack) 2
 		append stack ret
 		return none
 	]
@@ -259,7 +295,7 @@ machine: context [
 		if debug [print "(>=)"]
 		frame:  back back tail stack
 		ret: either (first frame) >= (second frame) [1][0]
-		remove remove back back tail stack
+		remove/part (back back tail stack) 2
 		append stack ret
 		return none
 	]
@@ -270,7 +306,7 @@ machine: context [
 		if debug [print "(<)"]
 		frame:  back back tail stack
 		ret: either (first frame) < (second frame) [1][0]
-		remove remove back back tail stack
+		remove/part (back back tail stack) 2
 		append stack ret
 		return none
 	]
@@ -281,7 +317,7 @@ machine: context [
 		if debug [print "(>)"]
 		frame:  back back tail stack
 		ret: either (first frame) > (second frame) [1][0]
-		remove remove back back tail stack
+		remove/part (back back tail stack) 2
 		append stack ret
 		return none
 	]
@@ -292,7 +328,7 @@ machine: context [
 		if debug [print "(=)"]
 		frame:  back back tail stack
 		ret: either (first frame) = (second frame) [1][0]
-		remove remove back back tail stack
+		remove/part (back back tail stack) 2
 		append stack ret
 		return none
 	]
