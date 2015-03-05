@@ -10,7 +10,7 @@ rules: [
 	jignore: [["/*" thru "*/"] | "//" | newline | tab | space]
 	jnend: [newline | end]
 
-	;stack operations
+	;Stack operations
 	jpush: ["push" space copy param to rules/jnend]
 	jpop: ["pop"]
 	jrvalue: ["rvalue" space copy param to rules/jnend]
@@ -31,19 +31,19 @@ rules: [
 	jreturn: ["return"]
 	jcall: ["call" space copy param to rules/jnend]
 
-	;arithmetic operations
+	;Arithmetic operations
 	jadd: ["+"]
 	jsub: ["-"]
 	jmul: ["*"]
 	jdiv: ["/"]
 	jmod: ["div"]
 
-	;logic operations
+	;Logic operations
 	jand: ["&"]
 	jnot: ["!"]
 	jor:  ["|"]
 
-	;relation operators
+	;Relational operators
 	jnot-equ:  ["<>"]
 	jless-equ: ["<="]
 	jmore-equ: [">="]

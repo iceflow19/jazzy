@@ -58,15 +58,17 @@ forever [
 		]
 		"ls" [ ls ]
 		"reset" [
+			save-dir: what-dir
 			cd :original-dir
-			print ["==" what-dir]
 			do %Interpreter/core.r3
+			cd :save-dir
+			print ["==" what-dir]
 		]
 	][
 		file: read/string to-rebol-file input
-		if debug [ print ["===== First Pass =====" newline] ]
+		if debug or verbose [ print ["===== First Pass =====" newline] ]
 		valid: parse file firstpass-rule
-		if debug [ print [newline "===== Second Pass =====" newline] ]
+		if debug or verbose [ print [newline "===== Second Pass =====" newline] ]
 		comment either valid [
 			parse file master-rule
 		][

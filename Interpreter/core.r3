@@ -12,10 +12,10 @@ do %machine.r3
 
 sub-firstpass-rule: [
 	any [ 1 [
-		(instruction: [])
-		instruction-start:	
+		(command: [])
+		command-start:	
 		[
-			rules/jlabel (instruction: [ machine/label-op param]) |
+			rules/jlabel (command: [ machine/label-op param]) |
 			rules/jignore 	| rules/jreturn		|
 			rules/jrvalue	| rules/jlvalue		|
 			rules/jset		| rules/jcopy      	|
@@ -35,23 +35,23 @@ sub-firstpass-rule: [
 				rules/jbegin sub-firstpass-rule rules/jend
 			]
 		]
-		instruction-end:
+		command-end:
 	]
 	(
 		if debug [
 			print [
-				"S:" offset? program-start instruction-start 
-				"E:" offset? program-start instruction-end
+				"S:" offset? program-start command-start 
+				"E:" offset? program-start command-end
 				"->"
-				mold copy/part instruction-start instruction-end
+				mold copy/part command-start command-end
 			]
 		]
-		next-instruction: instruction-end
-		repend instruction [offset? program-start instruction-end]
-		do instruction
-		remove back tail instruction
+		next-command: command-end
+		repend command [offset? program-start command-end]
+		do command
+		remove back tail command
 	)
-	:next-instruction
+	:next-command
 	]
 ]
 
@@ -60,79 +60,79 @@ firstpass-rule: [
 	[sub-firstpass-rule]
 ]
 
-instruction: []
+command: []
 
 sub-master-rule: [
 	any [ 1 [
-		(instruction: [])
-		instruction-start:
+		(command: [])
+		command-start:
 		[
-			rules/jignore   (instruction: [does [return none]]) |
-			rules/jpush     (instruction: [machine/push-op param]) |
-			rules/jpop      (instruction: [machine/pop-op]) |
-			rules/jrvalue   (instruction: [machine/rvalue-op param]) |
-			rules/jlvalue   (instruction: [machine/lvalue-op param]) |
-			rules/jset		(instruction: [machine/set-op]) |
-			rules/jcopy     (instruction: [machine/copy-op]) |
-			rules/jlabel    (instruction: [machine/dummy-op])|
-			rules/jgoto     (instruction: [machine/goto-op param]) |
-			rules/jgofalse  (instruction: [machine/gofalse-op param]) |
-			rules/jgotrue   (instruction: [machine/gotrue-op param]) |
-			rules/jhalt     (instruction: [machine/halt-op]) |
-			rules/jreturn   (instruction: [machine/return-op]) |
-			rules/jcall     (instruction: [machine/call-op param]) |
-			rules/jadd      (instruction: [machine/add-op]) |
-			rules/jsub      (instruction: [machine/sub-op]) |
-			rules/jmul      (instruction: [machine/mul-op]) |
-			rules/jdiv      (instruction: [machine/div-op]) |
-			rules/jmod      (instruction: [machine/mod-op]) |
-			rules/jand      (instruction: [machine/and-op]) |
-			rules/jnot      (instruction: [machine/not-op]) |
-			rules/jor       (instruction: [machine/or-op]) |
-			rules/jnot-equ  (instruction: [machine/not-equ-op]) |
-			rules/jless-equ (instruction: [machine/less-equ-op]) |
-			rules/jmore-equ (instruction: [machine/more-equ-op]) |
-			rules/jless     (instruction: [machine/less-op]) |
-			rules/jmore     (instruction: [machine/more-op]) |
-			rules/jequ      (instruction: [machine/equ-op]) |
-			rules/jprint    (instruction: [machine/print-op]) |
-			rules/jshow     (instruction: [machine/show-op param]) |
-			rules/jnend		(instruction: [machine/dummy-op]) |
+			rules/jignore   (command: [does [return none]]) |
+			rules/jpush     (command: [machine/push-op param]) |
+			rules/jpop      (command: [machine/pop-op]) |
+			rules/jrvalue   (command: [machine/rvalue-op param]) |
+			rules/jlvalue   (command: [machine/lvalue-op param]) |
+			rules/jset		(command: [machine/set-op]) |
+			rules/jcopy     (command: [machine/copy-op]) |
+			rules/jlabel    (command: [machine/dummy-op])|
+			rules/jgoto     (command: [machine/goto-op param]) |
+			rules/jgofalse  (command: [machine/gofalse-op param]) |
+			rules/jgotrue   (command: [machine/gotrue-op param]) |
+			rules/jhalt     (command: [machine/halt-op]) |
+			rules/jreturn   (command: [machine/return-op]) |
+			rules/jcall     (command: [machine/call-op param]) |
+			rules/jadd      (command: [machine/add-op]) |
+			rules/jsub      (command: [machine/sub-op]) |
+			rules/jmul      (command: [machine/mul-op]) |
+			rules/jdiv      (command: [machine/div-op]) |
+			rules/jmod      (command: [machine/mod-op]) |
+			rules/jand      (command: [machine/and-op]) |
+			rules/jnot      (command: [machine/not-op]) |
+			rules/jor       (command: [machine/or-op]) |
+			rules/jnot-equ  (command: [machine/not-equ-op]) |
+			rules/jless-equ (command: [machine/less-equ-op]) |
+			rules/jmore-equ (command: [machine/more-equ-op]) |
+			rules/jless     (command: [machine/less-op]) |
+			rules/jmore     (command: [machine/more-op]) |
+			rules/jequ      (command: [machine/equ-op]) |
+			rules/jprint    (command: [machine/print-op]) |
+			rules/jshow     (command: [machine/show-op param]) |
+			rules/jnend		(command: [machine/dummy-op]) |
 			[
-				rules/jbegin (instruction: [machine/dummy-op] machine/begin-op)
+				rules/jbegin (command: [machine/dummy-op] machine/begin-op)
 				sub-master-rule
-				rules/jend   (instruction: [machine/dummy-op] machine/end-op)
+				rules/jend   (command: [machine/dummy-op] machine/end-op)
 			]
 		]
-		instruction-end:
+		command-end:
 	]	
 	(
 		if debug [
 			print [
-				"S:" offset? program-start instruction-start 
-				"E:" offset? program-start instruction-end
+				"S:" offset? program-start command-start 
+				"E:" offset? program-start command-end
 				"->"
-				mold copy/part instruction-start instruction-end
+				mold copy/part command-start command-end
 			]
 		]
-		next-instruction: instruction-end			
-		either 'halt-op == (second to-block first instruction) [
-			next-instruction: tail program-start
+		next-command: command-end			
+		either 'halt-op == (second to-block first command) [
+			next-command: tail program-start
 		][
-			either 'call-op == (second to-block first instruction) [
-				repend instruction [offset? program-start instruction-end]
-				result: do instruction
-				remove back tail instruction
+			either 'call-op == (second to-block first command) [
+				repend command [offset? program-start command-end]
+				result: do command
+				remove back tail command
 			][
-				result: do instruction
+				result: do command
 			]
 
 			if not none? result [
-					next-instruction: skip program-start result
+					next-command: skip program-start result
 			]
 		]
 	)
-	:next-instruction
+	:next-command
 	]
 ]
 

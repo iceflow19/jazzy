@@ -5,37 +5,46 @@ REBOL [
 
 machine: context [
 
-
-	memory: make object! [
-		
-		scopes: []
-		lscope: rscope: first append scopes make map! []
-
-		rprev-lnext: does [
-			append scopes lscope: make map! []
-			rscope: first back back tail scopes
-		]
-
-		rlnext: does [
-			lscope: rscope: last scopes
-		]
-
-		rlprev: does [
-			lscope: rscope: last remove back tail scopes
-		]
-
-		rnext-lprev: does [
-			rscope: last scopes
-			lscope: first back back tail scopes
-		]
-	]
-	
 	labels: make map! []
 	stack: []
 	call-stack: []
 
+	memory: make object! [
+		
+		scopes: []
+
+		lscope: rscope: first append scopes make map! []
+
+		rprev-lnext: func [
+			"Return from previous scope, set in next."
+		][
+			append scopes lscope: make map! []
+			rscope: first back back tail scopes
+		]
+
+		rlnext: func [
+			"Return and set in next scope."
+		][
+			lscope: rscope: last scopes
+		]
+
+		rlprev: func [
+			"Return and set in the previous scope."
+		][
+			lscope: rscope: last remove back tail scopes
+		]
+
+		rnext-lprev: func [
+			"Return from the next scope and set in the previous."
+		][
+			rscope: last scopes
+			lscope: first back back tail scopes
+		]
+	]
+
 	push-op: function [
-		val
+		"Push a value onto the stack."
+		val [integer! string!]
 	][
 
 		if verbose [print ["(push" val ")"]]
@@ -44,7 +53,7 @@ machine: context [
 	]
 	
 	pop-op: function [
-
+		"Pop the stack."
 	][
 		if verbose [print "(pop)"]
 		remove back tail stack
@@ -52,6 +61,7 @@ machine: context [
 	]
 
 	rvalue-op: function [
+		"Push the value of a label to the stack."
 		key
 	][
 		either found? value: select memory/rscope trim key [
@@ -64,6 +74,7 @@ machine: context [
 	]
 
 	lvalue-op: function [
+		"Push a label onto the stack."
 		key
 	][
 		if verbose [print ["(lvalue" key ")"]]
@@ -72,7 +83,7 @@ machine: context [
 	]
 
 	set-op: function [
-
+		"Set a variable to a value."
 	][
 		frame: back back tail stack
 		if verbose [
@@ -89,16 +100,17 @@ machine: context [
 	]
 
 	copy-op: function [
-
+		"copy the top of stack."
 	][
-		if verbose =1 [print "(copy)"]
+		if verbose = 1 [print "(copy)"]
 		append stack last stack
 		return none
 	]
 
 	label-op: function [
-		label
-		loc-after
+		"Add a label."
+		label [string!]
+		loc-after [integer!]
 	][
 		if verbose [print ["(label" label ")"]]
 		key: trim label
@@ -107,40 +119,43 @@ machine: context [
 	]
 
 	goto-op: function [
-		key
+		"Goto label."
+		label [string!]
 	][
-		if verbose [print ["(goto" key ")"]]
-		return select labels trim key
+		if verbose [print ["(goto" label ")" newline "(label" label ")"]]
+		return select labels trim label
 	]
 
 	gofalse-op: function [
-		key
+		"Go if false to label."
+		label [string!]
 	][
-		if verbose [print ["(gofalse" key ")"]]
+		if verbose [print ["(gofalse" label ")" newline "(label" label ")"]]
 		temp: (last stack) = 0
 		remove back tail stack
 		either temp [
-			return select labels trim key
+			return select labels trim label
 		][
 			return none
 		]
 	]
 
 	gotrue-op: function [
-		key
+		"Go if true to label."
+		label [string!]
 	][
-		if verbose [print ["(gotrue" key ")"]]
+		if verbose [print ["(gotrue" label ")" newline "(label" label ")"]]
 		temp: not ((last stack) = 0)
 		remove back tail stack
 		either temp [
-			return select labels trim key
+			return select labels trim label
 		][
 			return none
 		]
 	]
 
 	begin-op: function [
-
+		"Begin parameter passing."
 	][
 		if verbose [print "(begin)"]
 		memory/rprev-lnext
@@ -148,7 +163,7 @@ machine: context [
 	]
 
 	end-op: function [
-
+		"End parameter passing."
 	][
 		if verbose [print "(end)"]
 		memory/rlprev
@@ -156,9 +171,11 @@ machine: context [
 	]
 
 	call-op: function [
-		label ret-loc
+		"Call function."
+		label   [string!]
+		ret-loc [integer!]
 	][
-		if verbose [print ["(call" label ")"]]
+		if verbose [print ["(call" label ")" newline "(label" label ")"]]
 		memory/rlnext
 		either found? location: select labels trim label [
 			append call-stack ret-loc
@@ -171,7 +188,7 @@ machine: context [
 	]
 
 	return-op: function [
-
+		"Return from function call."
 	][
 		if verbose [print "(return)"]
 		memory/rnext-lprev
@@ -181,7 +198,7 @@ machine: context [
 	]
 
 	add-op: function [
-
+		"First value + second value."
 	][
 		frame: back back tail stack
 		ret: (first frame) + (second frame)
@@ -194,12 +211,12 @@ machine: context [
 	]
 
 	sub-op: function [
-
+		"First value - second value."
 	][
 		frame: back back tail stack
 		ret: (first frame) - (second frame)
 		if verbose [
-			print ["(" (first frame) "-" (second frame) "->" ret]
+			print ["(" (first frame) "-" (second frame) "->" ret ")"]
 		]
 		remove/part (back back tail stack) 2
 		append stack ret
@@ -207,7 +224,7 @@ machine: context [
 	]
 
 	mul-op: function [
-
+		"First value * second value."
 	][
 		frame: back back tail stack
 		ret: (first frame) * (second frame)
@@ -220,7 +237,7 @@ machine: context [
 	]
 
 	div-op: function [
-
+		"First value / second value."
 	][
 		frame: back back tail stack
 		ret: to-integer (first frame) / (second frame)
@@ -233,7 +250,7 @@ machine: context [
 	]
 
 	mod-op: function [
-
+		"First value | second value."
 	][
 		frame: back back tail stack
 		ret: (first frame) // (second frame)
@@ -246,7 +263,7 @@ machine: context [
 	]
 
 	and-op: function [
-
+		"First value && second value."
 	][
 		frame: back back tail stack
 		ret: (first frame) and (second frame)
@@ -259,7 +276,7 @@ machine: context [
 	]
 
 	not-op: function [
-
+		"Negate top of stack."
 	][
 		ret: either (last stack) = 0 [1][0]
 		if verbose [
@@ -271,7 +288,7 @@ machine: context [
 	]
 
 	or-op: function [
-
+		"First value != second value."
 	][
 		if verbose [print "(or)"]
 		frame: back back tail stack
@@ -285,7 +302,7 @@ machine: context [
 	]
 
 	not-equ-op: function [
-
+		"First value != second value."
 	][
 		if verbose [print "(!=)"]
 		frame:  back back tail stack
@@ -299,7 +316,7 @@ machine: context [
 	]
 
 	less-equ-op: function [
-
+		"First value  <= second value."
 	][
 		frame:  back back tail stack
 		ret: either (first frame) <= (second frame) [1][0]
@@ -312,7 +329,7 @@ machine: context [
 	]
 
 	more-equ-op: function [
-
+		"First value >= second value."
 	][
 		frame:  back back tail stack
 		ret: either (first frame) >= (second frame) [1][0]
@@ -325,7 +342,7 @@ machine: context [
 	]
 
 	less-op: function [
-
+		"First value < second value."
 	][
 		frame:  back back tail stack
 		ret: either (first frame) < (second frame) [1][0]
@@ -338,7 +355,7 @@ machine: context [
 	]
 
 	more-op: function [
-
+		"First value > second value."
 	][
 		frame:  back back tail stack
 		ret: either (first frame) > (second frame) [1][0]
@@ -351,8 +368,8 @@ machine: context [
 	]
 
 	equ-op: function [
-
-	][	
+		"First value = second value."
+	][
 		frame:  back back tail stack
 		ret: either (first frame) = (second frame) [1][0]
 		if verbose [
@@ -364,7 +381,7 @@ machine: context [
 	]
 
 	print-op: function [
-
+		"Prints the top value of the stack."
 	][
 		if verbose [prin "(print) "]
 		print last stack
@@ -372,7 +389,7 @@ machine: context [
 	]
 
 	halt-op: function [
-
+		"Halts the interpreter."
 	][
 		if verbose [print "(halt)"]
 		halt
@@ -380,7 +397,8 @@ machine: context [
 	]
 
 	show-op: function [
-		val
+		"Shows a string to the console"
+		val [string!]
 	][
 		if verbose [prin "(show) "]
 		print val

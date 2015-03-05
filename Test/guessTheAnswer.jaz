@@ -1,0 +1,64 @@
+goto zero 
+label 1
+lvalue Sub::x
+rvalue Sub::x
+rvalue Sub::y
+-
+:=
+return
+label 2
+lvalue Add::x
+rvalue Add::x
+rvalue Add::y
++
+:=
+return
+label 3
+begin
+  lvalue Add::x
+  rvalue test::a
+  :=
+  lvalue Add::y
+  rvalue test::b
+  :=
+  call 2
+  lvalue test::a
+  rvalue Add::x
+  :=
+end
+return
+label zero 
+lvalue ::j
+push 4
+:=
+lvalue ::i
+push 2
+:=
+begin
+  lvalue Sub::x
+  rvalue ::j
+  :=
+  lvalue Sub::y
+  push 1
+  :=
+  call 1
+  lvalue ::j
+  rvalue Sub::x
+  :=
+end
+begin
+  lvalue test::a
+  rvalue ::i
+  :=
+  lvalue test::b
+  push 6
+  :=
+  call 3
+  lvalue ::i
+  rvalue test::a
+  :=
+end
+show The value of i is:
+rvalue ::i
+print
+halt
