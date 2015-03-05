@@ -4,6 +4,7 @@ REBOL [
 ]
 
 debug: false
+verbose: false
 
 ;import the other modules
 do %rules.r3
@@ -73,7 +74,7 @@ sub-master-rule: [
 			rules/jlvalue   (instruction: [machine/lvalue-op param]) |
 			rules/jset		(instruction: [machine/set-op]) |
 			rules/jcopy     (instruction: [machine/copy-op]) |
-			rules/jlabel    (instruction: [does [return none]])|
+			rules/jlabel    (instruction: [machine/dummy-op])|
 			rules/jgoto     (instruction: [machine/goto-op param]) |
 			rules/jgofalse  (instruction: [machine/gofalse-op param]) |
 			rules/jgotrue   (instruction: [machine/gotrue-op param]) |
@@ -96,11 +97,11 @@ sub-master-rule: [
 			rules/jequ      (instruction: [machine/equ-op]) |
 			rules/jprint    (instruction: [machine/print-op]) |
 			rules/jshow     (instruction: [machine/show-op param]) |
-			rules/jnend		(instruction: [does [return none]]) |
+			rules/jnend		(instruction: [machine/dummy-op]) |
 			[
-				rules/jbegin (machine/begin-op)
+				rules/jbegin (instruction: [machine/dummy-op] machine/begin-op)
 				sub-master-rule
-				rules/jend   (machine/end-op)
+				rules/jend   (instruction: [machine/dummy-op] machine/end-op)
 			]
 		]
 		instruction-end:
@@ -114,17 +115,22 @@ sub-master-rule: [
 				mold copy/part instruction-start instruction-end
 			]
 		]
-		;trace on
 		next-instruction: instruction-end			
 		either 'halt-op == (second to-block first instruction) [
 			next-instruction: tail program-start
-		] [
-			result: do instruction
+		][
+			either 'call-op == (second to-block first instruction) [
+				repend instruction [offset? program-start instruction-end]
+				result: do instruction
+				remove back tail instruction
+			][
+				result: do instruction
+			]
+
 			if not none? result [
-				next-instruction: skip program-start result
+					next-instruction: skip program-start result
 			]
 		]
-		;trace off
 	)
 	:next-instruction
 	]

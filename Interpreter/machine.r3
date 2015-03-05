@@ -17,11 +17,11 @@ machine: context [
 		]
 
 		rlnext: does [
-			lscope: rscope: last remove back tail scopes
+			lscope: rscope: last scopes
 		]
 
 		rlprev: does [
-			lscope: rscope: last scopes
+			lscope: rscope: last remove back tail scopes
 		]
 
 		rnext-lprev: does [
@@ -38,7 +38,7 @@ machine: context [
 		val
 	][
 
-		if debug [print ["(push" val ")"]]
+		if verbose [print ["(push" val ")"]]
 		append stack to-integer trim val
 		return none
 	]
@@ -46,7 +46,7 @@ machine: context [
 	pop-op: function [
 
 	][
-		if debug [print "(pop)"]
+		if verbose [print "(pop)"]
 		remove back tail stack
 		return none
 	]
@@ -54,8 +54,8 @@ machine: context [
 	rvalue-op: function [
 		key
 	][
-		if debug [print ["(rvalue" key ")"]]
 		either found? value: select memory/rscope key [
+			if verbose [print ["(rvalue" key ") ->" value]]
 			append stack value
 		][
 			append stack 0
@@ -66,7 +66,7 @@ machine: context [
 	lvalue-op: function [
 		key
 	][
-		if debug [print ["(lvalue" key ")"]]
+		if verbose [print ["(lvalue" key ")"]]
 		append stack trim key
 		return none
 	]
@@ -74,8 +74,8 @@ machine: context [
 	set-op: function [
 
 	][
-		if debug [print "(set)"]
 		frame: back back tail stack
+		if verbose [print [(first frame) ":=" (second frame)]]
 		key: first frame
 		either string? key [
 			insert memory/lscope reduce [key second frame]
@@ -89,7 +89,7 @@ machine: context [
 	copy-op: function [
 
 	][
-		if debug =1 [print "(copy)"]
+		if verbose =1 [print "(copy)"]
 		append stack last stack
 		return none
 	]
@@ -98,27 +98,27 @@ machine: context [
 		label
 		loc-after
 	][
-		if debug [print ["(label" label loc-after ")"]]
+		if verbose [print ["(label" label ")"]]
 		key: trim label
-		labels/(key): loc-after
+		insert labels reduce [key loc-after]
 		return none
 	]
 
 	goto-op: function [
 		key
 	][
-		if debug [print ["(goto" key ")"]]
-		return labels/(key)
+		if verbose [print ["(goto" key ")"]]
+		return select labels key
 	]
 
 	gofalse-op: function [
 		key
 	][
-		if debug [print ["(gofalse" key ")"]]
+		if verbose [print ["(gofalse" key ")"]]
 		temp: (last stack) = 0
 		remove back tail stack
 		either temp [
-			return labels/(key)
+			return select labels key
 		][
 			return none
 		]
@@ -127,7 +127,7 @@ machine: context [
 	gotrue-op: function [
 		key
 	][
-		if debug [print ["(gotrue" key ")"]]
+		if verbose [print ["(gotrue" key ")"]]
 		temp: not ((last stack) = 0)
 		remove back tail stack
 		either temp [
@@ -140,7 +140,7 @@ machine: context [
 	begin-op: function [
 
 	][
-		if debug [print "(begin)"]
+		if verbose [print "(begin)"]
 		memory/rprev-lnext
 		return none
 	]
@@ -148,18 +148,18 @@ machine: context [
 	end-op: function [
 
 	][
-		if debug [print "(end)"]
+		if verbose [print "(end)"]
 		memory/rlprev
 		return none
 	]
 
 	call-op: function [
-		label
+		label ret-loc
 	][
-		if debug [print ["(call" label ")"]]
+		if verbose [print ["(call" label ")"]]
 		memory/rlnext
 		either found? location: select labels label [
-			append call-stack location
+			append call-stack ret-loc
 			return location
 		][
 			make error! "label not found!"
@@ -171,7 +171,7 @@ machine: context [
 	return-op: function [
 
 	][
-		if debug [print "(return)"]
+		if verbose [print "(return)"]
 		memory/rnext-lprev
 		location: last call-stack
 		remove back tail call-stack
@@ -181,9 +181,11 @@ machine: context [
 	add-op: function [
 
 	][
-		if debug [print "(add)"]
 		frame: back back tail stack
 		ret: (first frame) + (second frame)
+		if verbose [
+			print [(first frame) "+" (second frame) "->" ret]
+		]
 		remove/part (back back tail stack) 2
 		append stack ret
 		return none
@@ -192,9 +194,11 @@ machine: context [
 	sub-op: function [
 
 	][
-		if debug [print "(sub)"]
 		frame: back back tail stack
 		ret: (first frame) - (second frame)
+		if verbose [
+			print [(first frame) "-" (second frame) "->" ret]
+		]
 		remove/part (back back tail stack) 2
 		append stack ret
 		return none
@@ -203,9 +207,11 @@ machine: context [
 	mul-op: function [
 
 	][
-		if debug [print "(mul)"]
 		frame: back back tail stack
 		ret: (first frame) * (second frame)
+		if verbose [
+			print [(first frame) "*" (second frame) "->" ret]
+		]
 		remove/part (back back tail stack) 2
 		append stack ret
 		return none
@@ -214,9 +220,11 @@ machine: context [
 	div-op: function [
 
 	][
-		if debug [print "(div)"]
 		frame: back back tail stack
 		ret: to-integer (first frame) / (second frame)
+		if verbose [
+			print [(first frame) "/" (second frame) "->" ret]
+		]
 		remove/part (back back tail stack) 2
 		append stack ret
 		return none
@@ -225,9 +233,11 @@ machine: context [
 	mod-op: function [
 
 	][
-		if debug [print "(mod)"]
 		frame: back back tail stack
 		ret: (first frame) // (second frame)
+		if verbose [
+			print [(first frame) "%" (second frame) "->" ret]
+		]
 		remove/part (back back tail stack) 2
 		append stack ret
 		return none
@@ -236,9 +246,11 @@ machine: context [
 	and-op: function [
 
 	][
-		if debug [print "(and)"]
 		frame: back back tail stack
 		ret: (first frame) and (second frame)
+		if verbose [
+			print [(first frame) "and" (second frame) "->" ret]
+		]
 		remove/part (back back tail stack) 2
 		append stack ret
 		return none
@@ -247,8 +259,10 @@ machine: context [
 	not-op: function [
 
 	][
-		if debug [print "(not)"]
 		ret: either (last stack) = 0 [1][0]
+		if verbose [
+			print ["not"(last stack) "->" ret]
+		]
 		remove back tail stack
 		append stack ret
 		return none
@@ -257,9 +271,12 @@ machine: context [
 	or-op: function [
 
 	][
-		if debug [print "(or)"]
+		if verbose [print "(or)"]
 		frame: back back tail stack
 		ret: (first frame) or (second frame)
+		if verbose [
+			print [(first frame) "or" (second frame) "->" ret]
+		]
 		remove/part (back back tail stack) 2
 		append stack ret
 		return none
@@ -268,9 +285,12 @@ machine: context [
 	not-equ-op: function [
 
 	][
-		if debug [print "(!=)"]
+		if verbose [print "(!=)"]
 		frame:  back back tail stack
 		ret: either (first frame) = (second frame) [0][1]
+		if verbose [
+			print [(first frame) "!=" (second frame) "->" ret]
+		]
 		remove/part (back back tail stack) 2
 		append stack ret
 		return none
@@ -279,9 +299,11 @@ machine: context [
 	less-equ-op: function [
 
 	][
-		if debug [print "(<=)"]
 		frame:  back back tail stack
 		ret: either (first frame) <= (second frame) [1][0]
+		if verbose [
+			print [(first frame) "<=" (second frame) "->" ret]
+		]
 		remove/part (back back tail stack) 2
 		append stack ret
 		return none
@@ -290,9 +312,11 @@ machine: context [
 	more-equ-op: function [
 
 	][
-		if debug [print "(>=)"]
 		frame:  back back tail stack
 		ret: either (first frame) >= (second frame) [1][0]
+		if verbose [
+			print [(first frame) ">=" (second frame) "->" ret]
+		]
 		remove/part (back back tail stack) 2
 		append stack ret
 		return none
@@ -301,9 +325,11 @@ machine: context [
 	less-op: function [
 
 	][
-		if debug [print "(<)"]
 		frame:  back back tail stack
 		ret: either (first frame) < (second frame) [1][0]
+		if verbose [
+			print [(first frame) "<" (second frame) "->" ret]
+		]
 		remove/part (back back tail stack) 2
 		append stack ret
 		return none
@@ -312,9 +338,11 @@ machine: context [
 	more-op: function [
 
 	][
-		if debug [print "(>)"]
 		frame:  back back tail stack
 		ret: either (first frame) > (second frame) [1][0]
+		if verbose [
+			print [(first frame) ">" (second frame) "->" ret]
+		]
 		remove/part (back back tail stack) 2
 		append stack ret
 		return none
@@ -323,9 +351,11 @@ machine: context [
 	equ-op: function [
 
 	][	
-		if debug [print "(=)"]
 		frame:  back back tail stack
 		ret: either (first frame) = (second frame) [1][0]
+		if verbose [
+			print [(first frame) "=" (second frame) "->" ret]
+		]
 		remove/part (back back tail stack) 2
 		append stack ret
 		return none
@@ -334,7 +364,7 @@ machine: context [
 	print-op: function [
 
 	][
-		if debug [print "(print)"]
+		if verbose [print "(print)"]
 		print last stack
 		return none
 	]
@@ -342,7 +372,7 @@ machine: context [
 	halt-op: function [
 
 	][
-		if debug [print "(halt)"]
+		if verbose [print "(halt)"]
 		halt
 		return none
 	]
@@ -350,8 +380,12 @@ machine: context [
 	show-op: function [
 		val
 	][
-		if debug [print "(show)"]
+		if verbose [print "(show)"]
 		print val
+		return none
+	]
+
+	dummy-op: does [
 		return none
 	]
 ]
