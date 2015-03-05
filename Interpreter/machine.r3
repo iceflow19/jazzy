@@ -54,8 +54,8 @@ machine: context [
 	rvalue-op: function [
 		key
 	][
-		either found? value: select memory/rscope key [
-			if verbose [print ["(rvalue" key ") ->" value]]
+		either found? value: select memory/rscope trim key [
+			if verbose [print ["(rvalue" key "->" value ")"]]
 			append stack value
 		][
 			append stack 0
@@ -75,7 +75,9 @@ machine: context [
 
 	][
 		frame: back back tail stack
-		if verbose [print [(first frame) ":=" (second frame)]]
+		if verbose [
+			print ["(" (first frame) ":=" (second frame) ")"]
+		]
 		key: first frame
 		either string? key [
 			insert memory/lscope reduce [key second frame]
@@ -108,7 +110,7 @@ machine: context [
 		key
 	][
 		if verbose [print ["(goto" key ")"]]
-		return select labels key
+		return select labels trim key
 	]
 
 	gofalse-op: function [
@@ -118,7 +120,7 @@ machine: context [
 		temp: (last stack) = 0
 		remove back tail stack
 		either temp [
-			return select labels key
+			return select labels trim key
 		][
 			return none
 		]
@@ -131,7 +133,7 @@ machine: context [
 		temp: not ((last stack) = 0)
 		remove back tail stack
 		either temp [
-			return select labels key
+			return select labels trim key
 		][
 			return none
 		]
@@ -158,7 +160,7 @@ machine: context [
 	][
 		if verbose [print ["(call" label ")"]]
 		memory/rlnext
-		either found? location: select labels label [
+		either found? location: select labels trim label [
 			append call-stack ret-loc
 			return location
 		][
@@ -184,7 +186,7 @@ machine: context [
 		frame: back back tail stack
 		ret: (first frame) + (second frame)
 		if verbose [
-			print [(first frame) "+" (second frame) "->" ret]
+			print ["(" (first frame) "+" (second frame) "->" ret ")"]
 		]
 		remove/part (back back tail stack) 2
 		append stack ret
@@ -197,7 +199,7 @@ machine: context [
 		frame: back back tail stack
 		ret: (first frame) - (second frame)
 		if verbose [
-			print [(first frame) "-" (second frame) "->" ret]
+			print ["(" (first frame) "-" (second frame) "->" ret]
 		]
 		remove/part (back back tail stack) 2
 		append stack ret
@@ -210,7 +212,7 @@ machine: context [
 		frame: back back tail stack
 		ret: (first frame) * (second frame)
 		if verbose [
-			print [(first frame) "*" (second frame) "->" ret]
+			print ["(" (first frame) "*" (second frame) "->" ret ")"]
 		]
 		remove/part (back back tail stack) 2
 		append stack ret
@@ -223,7 +225,7 @@ machine: context [
 		frame: back back tail stack
 		ret: to-integer (first frame) / (second frame)
 		if verbose [
-			print [(first frame) "/" (second frame) "->" ret]
+			print ["(" (first frame) "/" (second frame) "->" ret ")"]
 		]
 		remove/part (back back tail stack) 2
 		append stack ret
@@ -236,7 +238,7 @@ machine: context [
 		frame: back back tail stack
 		ret: (first frame) // (second frame)
 		if verbose [
-			print [(first frame) "%" (second frame) "->" ret]
+			print ["(" (first frame) "%" (second frame) "->" ret ")"]
 		]
 		remove/part (back back tail stack) 2
 		append stack ret
@@ -249,7 +251,7 @@ machine: context [
 		frame: back back tail stack
 		ret: (first frame) and (second frame)
 		if verbose [
-			print [(first frame) "and" (second frame) "->" ret]
+			print ["(" (first frame) "and" (second frame) "->" ret ")"]
 		]
 		remove/part (back back tail stack) 2
 		append stack ret
@@ -261,7 +263,7 @@ machine: context [
 	][
 		ret: either (last stack) = 0 [1][0]
 		if verbose [
-			print ["not"(last stack) "->" ret]
+			print ["( not"(last stack) "->" ret ")"]
 		]
 		remove back tail stack
 		append stack ret
@@ -275,7 +277,7 @@ machine: context [
 		frame: back back tail stack
 		ret: (first frame) or (second frame)
 		if verbose [
-			print [(first frame) "or" (second frame) "->" ret]
+			print ["(" (first frame) "or" (second frame) "->" ret ")"]
 		]
 		remove/part (back back tail stack) 2
 		append stack ret
@@ -289,7 +291,7 @@ machine: context [
 		frame:  back back tail stack
 		ret: either (first frame) = (second frame) [0][1]
 		if verbose [
-			print [(first frame) "!=" (second frame) "->" ret]
+			print ["(" (first frame) "!=" (second frame) "->" ret ")"]
 		]
 		remove/part (back back tail stack) 2
 		append stack ret
@@ -302,7 +304,7 @@ machine: context [
 		frame:  back back tail stack
 		ret: either (first frame) <= (second frame) [1][0]
 		if verbose [
-			print [(first frame) "<=" (second frame) "->" ret]
+			print ["(" (first frame) "<=" (second frame) "->" ret ")"]
 		]
 		remove/part (back back tail stack) 2
 		append stack ret
@@ -315,7 +317,7 @@ machine: context [
 		frame:  back back tail stack
 		ret: either (first frame) >= (second frame) [1][0]
 		if verbose [
-			print [(first frame) ">=" (second frame) "->" ret]
+			print ["(" (first frame) ">=" (second frame) "->" ret ")"]
 		]
 		remove/part (back back tail stack) 2
 		append stack ret
@@ -328,7 +330,7 @@ machine: context [
 		frame:  back back tail stack
 		ret: either (first frame) < (second frame) [1][0]
 		if verbose [
-			print [(first frame) "<" (second frame) "->" ret]
+			print ["(" (first frame) "<" (second frame) "->" ret ")"]
 		]
 		remove/part (back back tail stack) 2
 		append stack ret
@@ -341,7 +343,7 @@ machine: context [
 		frame:  back back tail stack
 		ret: either (first frame) > (second frame) [1][0]
 		if verbose [
-			print [(first frame) ">" (second frame) "->" ret]
+			print ["(" (first frame) ">" (second frame) "->" ret ")"]
 		]
 		remove/part (back back tail stack) 2
 		append stack ret
@@ -354,7 +356,7 @@ machine: context [
 		frame:  back back tail stack
 		ret: either (first frame) = (second frame) [1][0]
 		if verbose [
-			print [(first frame) "=" (second frame) "->" ret]
+			print ["(" (first frame) "=" (second frame) "->" ret ")"]
 		]
 		remove/part (back back tail stack) 2
 		append stack ret
@@ -364,7 +366,7 @@ machine: context [
 	print-op: function [
 
 	][
-		if verbose [print "(print)"]
+		if verbose [prin "(print) "]
 		print last stack
 		return none
 	]
@@ -380,7 +382,7 @@ machine: context [
 	show-op: function [
 		val
 	][
-		if verbose [print "(show)"]
+		if verbose [prin "(show) "]
 		print val
 		return none
 	]

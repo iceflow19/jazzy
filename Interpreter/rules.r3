@@ -7,7 +7,7 @@ param: ""
 
 rules: [
 	;Throw-away tokens
-	jignore: [["/*" thru "*/"] | newline | tab | space]
+	jignore: [["/*" thru "*/"] | "//" | newline | tab | space]
 	jnend: [newline | end]
 
 	;stack operations
