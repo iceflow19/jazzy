@@ -29,8 +29,6 @@ machine: context [
 			lscope: first back back tail scopes
 		]
 	]
-
-	memory/init
 	
 	labels: make map! []
 	stack: []
