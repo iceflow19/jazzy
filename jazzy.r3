@@ -3,6 +3,10 @@ REBOL [
     Authors: ["Thomas Royko" "Jayde Carney"]
 ]
 
+;This is one of two wrappers.  This one is used for
+;when running from the command line manually.
+
+;Import core
 do %Interpreter/core.r3
 
 jazzy-about: {
@@ -65,13 +69,17 @@ forever [
 			print ["==" what-dir]
 		]
 	][
+		;Get the jaz file
 		file: read/string to-rebol-file input
 		if debug or verbose [ print ["===== First Pass =====" newline] ]
+		;Run first pass and check for validity
 		valid: parse file firstpass-rule
 		if debug or verbose [ print [newline "===== Second Pass =====" newline] ]
+		;If valid, execute jaz code, and supress the output of parse.
 		comment either valid [
 			parse file master-rule
 		][
+			;Otherwise notifiy the user.
 			print "Input is not valid Jaz code!"
 		]
 	]

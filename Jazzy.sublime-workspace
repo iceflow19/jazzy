@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"l",
+				"label"
+			],
+			[
 				"ab",
 				"jazzy-about"
 			],
@@ -279,16 +283,20 @@
 		"selected_items":
 		[
 			[
+				"git c",
+				"Git: Commit"
+			],
+			[
+				"git ",
+				"Git: Status"
+			],
+			[
 				"gitc",
 				"Git: Commit"
 			],
 			[
 				"git",
 				"Git: Status"
-			],
-			[
-				"git c",
-				"Git: Commit"
 			],
 			[
 				"git co",
@@ -321,10 +329,6 @@
 			[
 				"gt",
 				"Git: Show"
-			],
-			[
-				"git ",
-				"Git: Status"
 			],
 			[
 				"Package Control: ",
@@ -427,9 +431,7 @@
 	},
 	"expanded_folders":
 	[
-		"/C/Users/Thomas/Documents/Programming/jazzy",
-		"/C/Users/Thomas/Documents/Programming/jazzy/Interpreter",
-		"/C/Users/Thomas/Documents/Programming/jazzy/Test"
+		"/C/Users/Thomas/Documents/Programming/jazzy"
 	],
 	"file_history":
 	[
@@ -437,8 +439,9 @@
 		"/C/Users/Thomas/Documents/Programming/jazzy/Interpreter/machine.r3",
 		"/C/Users/Thomas/Documents/Programming/jazzy/Interpreter/rules.r3",
 		"/C/Users/Thomas/Documents/Programming/jazzy/Build/jazzyx.r3",
-		"/C/Users/Thomas/Documents/Programming/jazzy/Test/recFact.jaz",
 		"/C/Users/Thomas/Documents/Programming/jazzy/jazzy.r3",
+		"/C/Users/Thomas/Documents/Programming/jazzy/.gitattributes",
+		"/C/Users/Thomas/Documents/Programming/jazzy/Test/recFact.jaz",
 		"/C/Users/Thomas/Documents/Programming/jazzy/Build/jazzyx.bat",
 		"/C/Users/Thomas/AppData/Local/Temp/nss1E11.tmp/XpackerX.commandline",
 		"/C/Users/Thomas/Documents/Programming/jazzy/Build/jazzy.xml",
@@ -449,7 +452,6 @@
 		"/C/Users/Thomas/Documents/Programming/jazzy/Test/foo.jaz",
 		"/C/Users/Thomas/Documents/Programming/jazzy/Test/JazzyTest.jaz",
 		"/C/Users/Thomas/Documents/Programming/jazzy/Test/factProc.jaz",
-		"/C/Users/Thomas/Documents/Programming/jazzy/.gitattributes",
 		"/C/Users/Thomas/Documents/Programming/jazzy/Test/test.jaz",
 		"/C/Users/Thomas/Desktop/foo.out",
 		"/C/Users/Thomas/Documents/Programming/jazzy/core.r3",
@@ -556,6 +558,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"instruction",
 			"rule",
 			"debug",
 			"memory",
@@ -637,7 +640,7 @@
 		"cols":
 		[
 			0.0,
-			0.671140939597,
+			0.54865771812,
 			1.0
 		],
 		"rows":

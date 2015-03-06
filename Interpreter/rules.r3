@@ -1,9 +1,14 @@
 REBOL [
-    Title: "Jazzy Interpreter"
+    Title: "Jazzy Rules"
     Authors: ["Thomas Royko" "Jayde Carney"]
 ]
 
+;Init param
 param: ""
+
+;This module contains the terminals and captures
+;for the parser.  They are utilized by both the first pass
+;rule and the master rule.
 
 rules: [
 	;Throw-away tokens

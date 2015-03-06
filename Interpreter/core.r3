@@ -1,20 +1,26 @@
 REBOL [
-    Title: "Jazzy Interpreter"
+    Title: "Jazzy Core"
     Authors: ["Thomas Royko" "Jayde Carney"]
 ]
 
+;Init flags
 debug: false
 verbose: false
 
-;import the other modules
+;Import the other modules
 do %rules.r3
 do %machine.r3
 
+;First pass rule, used to find label locations
 sub-firstpass-rule: [
+	;Match one rule any number of times
 	any [ 1 [
+		;Defualt in case no match
 		(command: [])
+		;Get start of command
 		command-start:	
 		[
+			;Rules to match and cooresponding commands to execute
 			rules/jlabel (command: [ machine/label-op param]) |
 			rules/jignore 	| rules/jreturn		|
 			rules/jrvalue	| rules/jlvalue		|
@@ -35,6 +41,7 @@ sub-firstpass-rule: [
 				rules/jbegin sub-firstpass-rule rules/jend
 			]
 		]
+		;Get end of command
 		command-end:
 	]
 	(
@@ -46,28 +53,36 @@ sub-firstpass-rule: [
 				mold copy/part command-start command-end
 			]
 		]
+		;Set to the next command
 		next-command: command-end
+		;Reduce and append label location to command
 		repend command [offset? program-start command-end]
+		;Execute command
 		do command
+		;Revent location build up
 		remove back tail command
 	)
+
 	:next-command
 	]
 ]
 
-firstpass-rule: [ 
+firstpass-rule: [
+	;Get start of program
 	program-start:
 	[sub-firstpass-rule]
 ]
 
-command: []
-
 sub-master-rule: [
+	;Match one rule any number of times
 	any [ 1 [
+		;Defualt in case no match
 		(command: [])
+		;Get start of command
 		command-start:
 		[
-			rules/jignore   (command: [does [return none]]) |
+			;Rules to match and cooresponding commands to execute
+			rules/jignore   (command: [machine/dummy-op]) |
 			rules/jpush     (command: [machine/push-op param]) |
 			rules/jpop      (command: [machine/pop-op]) |
 			rules/jrvalue   (command: [machine/rvalue-op param]) |
@@ -99,11 +114,14 @@ sub-master-rule: [
 			rules/jshow     (command: [machine/show-op param]) |
 			rules/jnend		(command: [machine/dummy-op]) |
 			[
+				;Rule is ignored by machine.  Since it isn't
+				;position dependent, always execute when encountered
 				rules/jbegin (command: [machine/dummy-op] machine/begin-op)
 				sub-master-rule
 				rules/jend   (command: [machine/dummy-op] machine/end-op)
 			]
 		]
+		;Get end of command
 		command-end:
 	]	
 	(
@@ -115,28 +133,37 @@ sub-master-rule: [
 				mold copy/part command-start command-end
 			]
 		]
-		next-command: command-end			
+
+		;Set to the next command
+		next-command: command-end
+		;Detect if on a halt
 		either 'halt-op == (second to-block first command) [
+			;If halt, jump to end
 			next-command: tail program-start
 		][
+			;Detect if call command
 			either 'call-op == (second to-block first command) [
+				;If so append the return location to the command
 				repend command [offset? program-start command-end]
 				result: do command
 				remove back tail command
 			][
+				;If not call execute command as usual
 				result: do command
 			]
-
+			;If the command returns a location, jump there 
 			if not none? result [
 					next-command: skip program-start result
 			]
 		]
 	)
+	;Set parser to beginning of next command
 	:next-command
 	]
 ]
 
-master-rule: [ 
+master-rule: [
+	;Get start of program
 	program-start:
 	[sub-master-rule]	
 ]

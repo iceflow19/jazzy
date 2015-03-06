@@ -1,7 +1,11 @@
 REBOL [
-    Title: "Jazzy Interpreter"
+    Title: "Jazzy Machine"
     Authors: ["Thomas Royko" "Jayde Carney"]
 ]
+
+;Note: Rebol series types, such as block!, act as both values and
+;references simultaneously, allowing for rich function chaining.
+;The below code uses this extensively.
 
 machine: context [
 
@@ -10,9 +14,14 @@ machine: context [
 	call-stack: []
 
 	memory: make object! [
+
+		;Memory is implemented as a stack of scopes (a key-val map).
+		;Two pointers (lscope & rscope) move back and forth
+		;depending on location in jaz file.
 		
 		scopes: []
 
+		;Ran during construction
 		lscope: rscope: first append scopes make map! []
 
 		rprev-lnext: func [
@@ -42,6 +51,10 @@ machine: context [
 		]
 	]
 
+	;All of the functions, words, and objects are defined in the
+	;machine context.  A context is a scope structure
+	;(similar to namespace).  Objects are also a type of context.
+
 	push-op: function [
 		"Push a value onto the stack."
 		val [integer! string!]
@@ -62,7 +75,7 @@ machine: context [
 
 	rvalue-op: function [
 		"Push the value of a label to the stack."
-		key
+		key [string!]
 	][
 		either found? value: select memory/rscope trim key [
 			if verbose [print ["(rvalue" key "->" value ")"]]
@@ -75,7 +88,7 @@ machine: context [
 
 	lvalue-op: function [
 		"Push a label onto the stack."
-		key
+		key [string!]
 	][
 		if verbose [print ["(lvalue" key ")"]]
 		append stack trim key
