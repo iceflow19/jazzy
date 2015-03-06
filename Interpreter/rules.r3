@@ -3,14 +3,14 @@ REBOL [
     Authors: ["Thomas Royko" "Jayde Carney"]
 ]
 
-;Init param
-param: ""
-
 ;This module contains the terminals and captures
 ;for the parser.  They are utilized by both the first pass
 ;rule and the master rule.
 
-rules: [
+make object! [
+	;Init param
+	param: ""
+
 	;Throw-away tokens
 	jignore: [["/*" thru "*/"] | "//" | newline | tab | space]
 	jnend: [newline | end]

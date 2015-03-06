@@ -7,7 +7,7 @@ REBOL [
 ;references simultaneously, allowing for rich function chaining.
 ;The below code uses this extensively.
 
-machine: context [
+make object! [
 
 	labels: make map! []
 	stack: []

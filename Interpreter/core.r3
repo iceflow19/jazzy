@@ -8,8 +8,8 @@ debug: false
 verbose: false
 
 ;Import the other modules
-do %rules.r3
-do %machine.r3
+rules: do %rules.r3
+machine: do %machine.r3
 
 ;First pass rule, used to find label locations
 sub-firstpass-rule: [
@@ -21,7 +21,7 @@ sub-firstpass-rule: [
 		command-start:	
 		[
 			;Rules to match and cooresponding commands to execute
-			rules/jlabel (command: [ machine/label-op param]) |
+			rules/jlabel (command: [ machine/label-op rules/param]) |
 			rules/jignore 	| rules/jreturn		|
 			rules/jrvalue	| rules/jlvalue		|
 			rules/jset		| rules/jcopy      	|
@@ -83,19 +83,19 @@ sub-master-rule: [
 		[
 			;Rules to match and cooresponding commands to execute
 			rules/jignore   (command: [machine/dummy-op]) |
-			rules/jpush     (command: [machine/push-op param]) |
+			rules/jpush     (command: [machine/push-op rules/param]) |
 			rules/jpop      (command: [machine/pop-op]) |
-			rules/jrvalue   (command: [machine/rvalue-op param]) |
-			rules/jlvalue   (command: [machine/lvalue-op param]) |
+			rules/jrvalue   (command: [machine/rvalue-op rules/param]) |
+			rules/jlvalue   (command: [machine/lvalue-op rules/param]) |
 			rules/jset		(command: [machine/set-op]) |
 			rules/jcopy     (command: [machine/copy-op]) |
 			rules/jlabel    (command: [machine/dummy-op])|
-			rules/jgoto     (command: [machine/goto-op param]) |
-			rules/jgofalse  (command: [machine/gofalse-op param]) |
-			rules/jgotrue   (command: [machine/gotrue-op param]) |
+			rules/jgoto     (command: [machine/goto-op rules/param]) |
+			rules/jgofalse  (command: [machine/gofalse-op rules/param]) |
+			rules/jgotrue   (command: [machine/gotrue-op rules/param]) |
 			rules/jhalt     (command: [machine/halt-op]) |
 			rules/jreturn   (command: [machine/return-op]) |
-			rules/jcall     (command: [machine/call-op param]) |
+			rules/jcall     (command: [machine/call-op rules/param]) |
 			rules/jadd      (command: [machine/add-op]) |
 			rules/jsub      (command: [machine/sub-op]) |
 			rules/jmul      (command: [machine/mul-op]) |
@@ -111,7 +111,7 @@ sub-master-rule: [
 			rules/jmore     (command: [machine/more-op]) |
 			rules/jequ      (command: [machine/equ-op]) |
 			rules/jprint    (command: [machine/print-op]) |
-			rules/jshow     (command: [machine/show-op param]) |
+			rules/jshow     (command: [machine/show-op rules/param]) |
 			rules/jnend		(command: [machine/dummy-op]) |
 			[
 				;Rule is ignored by machine.  Since it isn't
